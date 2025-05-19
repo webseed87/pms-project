@@ -7,7 +7,8 @@ import {
   XMarkIcon, 
   ChevronRightIcon,
   ChevronLeftIcon,
-  PencilSquareIcon
+  PencilSquareIcon,
+  ArrowPathIcon
 } from '@heroicons/react/24/outline';
 
 const ButtonExample = () => {
@@ -53,14 +54,23 @@ const ButtonExample = () => {
                 </Button>
               </div>
               
-              
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <h4 className="text-xs font-semibold mb-2 text-gray-500">DISABLED</h4>
+                <Button 
+                  buttonType={BUTTON_TYPES.PRIMARY}
+                  size={BUTTON_SIZES.LARGE}
+                  disabled
+                >
+                  저장
+                </Button>
+              </div>
             </div>
           </div>
           
           {/* 부가 타입 */}
           <div>
             <h3 className="font-semibold mb-3 text-gray-700">부가 타입</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="p-4 bg-gray-50 rounded-lg">
                 <h4 className="text-xs font-semibold mb-2 text-gray-500">SAVE</h4>
                 <Button 
@@ -83,12 +93,20 @@ const ButtonExample = () => {
               </div>
               
               <div className="p-4 bg-gray-50 rounded-lg">
-                <h4 className="text-xs font-semibold mb-2 text-gray-500">Delecte</h4>
+                <h4 className="text-xs font-semibold mb-2 text-gray-500">DELETE</h4>
                 <Button 
                   buttonType={BUTTON_TYPES.DELETE}
                   icon={<TrashIcon />}
                 >
                   삭제
+                </Button>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <h4 className="text-xs font-semibold mb-2 text-gray-500">REFRESH</h4>
+                <Button 
+                  buttonType={BUTTON_TYPES.REFRESH}
+                  icon={<ArrowPathIcon />}
+                >
                 </Button>
               </div>
             </div>
@@ -134,7 +152,16 @@ const ButtonExample = () => {
                   저장
                 </Button>
               </div>
-              
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <h4 className="text-xs font-semibold mb-2 text-gray-500">LOADING</h4>
+                <Button 
+                  buttonType={BUTTON_TYPES.SECONDARY}
+                  size={BUTTON_SIZES.MEDIUM}
+                  isLoading
+                >
+                저장
+                </Button>
+              </div>
               
             </div>
           </div>

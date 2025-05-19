@@ -16,9 +16,8 @@ const SelectExample = () => {
   // 회사 옵션 예시
   const companyOptions = [
     { value: 'haneul', label: '한얼아이티' },
-    { value: 'samsung', label: '삼성전자' },
-    { value: 'lg', label: 'LG전자' },
-    { value: 'hyundai', label: '현대자동차' }
+    { value: 'dbinc', label: 'DBInc.' },
+    { value: 'etevers', label: '에티버스' }
   ];
 
   return (

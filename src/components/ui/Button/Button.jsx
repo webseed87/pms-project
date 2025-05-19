@@ -13,10 +13,10 @@ export const BUTTON_TYPES = {
   LINE: 'line',            // 테두리만 있는 버튼 (outline)
   
   // 부가적인 타입
-  TASK: 'task',            // 작업용 회색 버튼
   ADD: 'add',              // 추가 버튼
   DELETE: 'delete',        // 삭제 버튼
   SAVE: 'save',            // 저장 버튼
+  REFRESH: 'refresh',      // 리프레쉬 버튼
 }
 
 /**
@@ -104,6 +104,9 @@ const Button = ({
     
     // DELETE - 삭제 버튼 
     [BUTTON_TYPES.DELETE]: 'bg-white text-rose-600 outline outline-1 outline-offset-[-1px] outline-rose-600 hover:bg-rose-50 hover:text-rose-800 hover:outline-rose-800',
+
+    // REFRESH - 리프레쉬 버튼 
+    [BUTTON_TYPES.REFRESH]: 'bg-slate-400 text-gray-50  rounded outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-center items-center gap-2.5',
   };
   
   // Size 스타일 (버튼 크기별 스타일)
@@ -116,7 +119,7 @@ const Button = ({
   
   // State 스타일 (버튼 상태별 스타일)
   const stateClasses = {
-    disabled: 'opacity-60 cursor-not-allowed',
+    disabled: 'bg-gray-200 text-gray-400 hover:bg-gray-200 hover:text-gray-400 cursor-not-allowed border-none outline-none',
     loading: 'relative cursor-wait'
   };
   
@@ -126,9 +129,8 @@ const Button = ({
   // 최종 클래스 조합
   const buttonClasses = `
     ${baseClasses}
-    ${typeClasses[buttonType]}
+    ${disabled ? stateClasses.disabled : typeClasses[buttonType]}
     ${sizeClasses[size]}
-    ${disabled ? stateClasses.disabled : ''}
     ${isLoading ? stateClasses.loading : ''}
     ${widthClasses}
     ${className}

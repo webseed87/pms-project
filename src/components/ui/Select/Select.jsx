@@ -125,7 +125,7 @@ const Select = forwardRef(({
           ${sizeClasses[size]}
           ${disabled ? 'bg-gray-100' : 'bg-white'} 
           outline outline-1 outline-offset-[-1px] 
-          ${error ? 'outline-red-500' : isOpen ? 'outline-blue-950' : disabled ? 'outline-gray-300' : 'outline-gray-400'}
+          ${error ? 'outline-red-500' : isOpen ? 'outline-blue-800' : disabled ? 'outline-gray-300' : 'outline-gray-400'}
           flex justify-between items-center 
           ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
         `}
