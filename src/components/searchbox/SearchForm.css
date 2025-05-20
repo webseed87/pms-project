@@ -1,0 +1,22 @@
+/* DatePicker 포퍼 스타일 */
+#date-picker-portal {
+  position: relative;
+  z-index: 9999;
+}
+
+.date-picker-popper {
+  z-index: 999 !important;
+}
+
+/* 달력이 컨테이너 위에 보이도록 스타일 추가 */
+.react-datepicker {
+  font-size: 0.9rem !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 달력이 입력 필드 바로 아래에 위치하도록 설정 */
+.react-datepicker-popper {
+  z-index: 999 !important;
+  margin-top: 0 !important;
+} 

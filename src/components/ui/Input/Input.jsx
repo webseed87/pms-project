@@ -112,9 +112,9 @@ const Input = forwardRef(({
   
   // 상태별 스타일
   const stateClasses = {
-    default: 'bg-white outline outline-1 outline-offset-[-1px] outline-gray-400 focus:outline-blue-800',
-    error: 'bg-white outline outline-1 outline-offset-[-1px] outline-red-500 focus:outline-red-600',
-    disabled: 'bg-gray-100 outline outline-1 outline-offset-[-1px] outline-gray-300 text-gray-500 cursor-not-allowed'
+    default: 'bg-white outline outline-1  outline-gray-400 focus-within:outline-blue-800',
+    error: 'bg-white outline outline-1 outline-red-500 focus-within:outline-red-600',
+    disabled: 'bg-gray-100 outline outline-1  outline-gray-300 text-gray-500 cursor-not-allowed'
   };
   
   // 타입별 아이콘
@@ -196,7 +196,7 @@ const Input = forwardRef(({
   // select 렌더링
   if (type === INPUT_TYPES.SELECT) {
     return (
-      <div className="relative">
+      <div className="relative w-full">
         <select
           ref={ref}
           id={id}
@@ -226,8 +226,17 @@ const Input = forwardRef(({
   }
   
   // 기본 입력 필드 (텍스트, 비밀번호, 날짜 등)
+  // 컨테이너 스타일을 변경하고 input 요소에는 테두리 스타일을 제거합니다
+  const containerClasses = `w-full relative ${disabled ? stateClasses.disabled : error ? stateClasses.error : stateClasses.default} ${sizeClasses[size]}`;
+  
+  // 입력 필드에는 최소한의 스타일만 적용합니다
+  const fieldClasses = `w-full h-full bg-transparent border-none outline-none px-0 py-0 font-normal font-pretendard text-sm leading-tight placeholder:text-gray-500
+    ${(type === INPUT_TYPES.PASSWORD || typeIcons[type] || (icon && iconPosition === 'right')) ? 'pr-10' : ''}
+    ${(icon && iconPosition === 'left') ? 'pl-10' : ''}
+    ${className}`;
+  
   return (
-    <div className="relative">
+    <div className={containerClasses}>
       <input
         ref={ref}
         type={type === INPUT_TYPES.PASSWORD ? (showPassword ? 'text' : 'password') : type}
@@ -238,7 +247,7 @@ const Input = forwardRef(({
         placeholder={placeholder}
         disabled={disabled}
         readOnly={readOnly}
-        className={`${inputClasses} ${(type === INPUT_TYPES.PASSWORD || typeIcons[type] || (icon && iconPosition === 'right')) ? 'pr-10' : ''} ${(icon && iconPosition === 'left') ? 'pl-10' : ''} placeholder:text-gray-500`}
+        className={fieldClasses}
         {...props}
       />
       {renderIcon()}
@@ -276,11 +285,11 @@ Input.propTypes = {
   size: PropTypes.oneOf(Object.values(INPUT_SIZES)),
   
   // 텍스트 영역 속성
-  /** textarea의 행 수 (type이 TEXTAREA일 때만 적용) */
+  /** 텍스트 영역 행 수 (textarea 타입일 때만 적용) */
   rows: PropTypes.number,
   
   // 선택 상자 속성
-  /** select 옵션 배열 (type이 SELECT일 때만 적용) */
+  /** 선택 상자 옵션 배열 (select 타입일 때만 적용) */
   options: PropTypes.arrayOf(
     PropTypes.shape({
       /** 옵션 값 */
@@ -291,7 +300,7 @@ Input.propTypes = {
   ),
   
   // 아이콘 속성
-  /** 입력 필드에 표시할 아이콘 요소 */
+  /** 입력 필드 옆에 표시할 아이콘 요소 */
   icon: PropTypes.element,
   /** 아이콘 위치 (왼쪽 또는 오른쪽) */
   iconPosition: PropTypes.oneOf(['left', 'right']),

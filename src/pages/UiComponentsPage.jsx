@@ -6,58 +6,34 @@ import DatePickerExample from '../components/ui/DatePicker/DatePickerExample';
 import { MenuExample } from '../components/ui/Menu';
 import { CheckboxExample } from '../components/ui/Checkbox';
 import { LabelExample } from '../components/ui/Label';
+import Tab, { TAB_DESIGNS, ICON_POSITIONS } from '../components/ui/Tab';
+import { TabExample } from '../components/ui/Tab';
 
 const UiComponentsPage = () => {
   const [activeTab, setActiveTab] = useState('button');
 
-  // UI 컴포넌트 탭 네비게이션 렌더링
-  const renderUiTabs = () => {
-    return (
-      <div className="flex border-b mb-6 overflow-x-auto">
-        <button
-          className={`px-4 py-2 font-medium ${activeTab === 'button' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
-          onClick={() => setActiveTab('button')}
-        >
-          Button 컴포넌트
-        </button>
-        <button
-          className={`px-4 py-2 font-medium ${activeTab === 'input' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
-          onClick={() => setActiveTab('input')}
-        >
-          Input 컴포넌트
-        </button>
-        <button
-          className={`px-4 py-2 font-medium ${activeTab === 'select' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
-          onClick={() => setActiveTab('select')}
-        >
-          Select 컴포넌트
-        </button>
-        <button
-          className={`px-4 py-2 font-medium ${activeTab === 'datepicker' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
-          onClick={() => setActiveTab('datepicker')}
-        >
-          DatePicker 컴포넌트
-        </button>
-        <button
-          className={`px-4 py-2 font-medium ${activeTab === 'menu' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
-          onClick={() => setActiveTab('menu')}
-        >
-          Menu 컴포넌트
-        </button>
-        <button
-          className={`px-4 py-2 font-medium ${activeTab === 'checkbox' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
-          onClick={() => setActiveTab('checkbox')}
-        >
-          Checkbox 컴포넌트
-        </button>
-        <button
-          className={`px-4 py-2 font-medium ${activeTab === 'label' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
-          onClick={() => setActiveTab('label')}
-        >
-          Label 컴포넌트
-        </button>
-      </div>
-    );
+  // 탭 변경 핸들러
+  const handleTabChange = (index) => {
+    const tabKeys = ['button', 'input', 'select', 'datepicker', 'menu', 'checkbox', 'label', 'tab'];
+    setActiveTab(tabKeys[index]);
+  };
+
+  // UI 컴포넌트 탭 정의
+  const tabs = [
+    { label: 'Button 컴포넌트', content: null },
+    { label: 'Input 컴포넌트', content: null },
+    { label: 'Select 컴포넌트', content: null },
+    { label: 'DatePicker 컴포넌트', content: null },
+    { label: 'Menu 컴포넌트', content: null },
+    { label: 'Checkbox 컴포넌트', content: null },
+    { label: 'Label 컴포넌트', content: null },
+    { label: 'Tab 컴포넌트', content: null },
+  ];
+
+  // 활성 탭 인덱스 계산
+  const getActiveTabIndex = () => {
+    const tabKeys = ['button', 'input', 'select', 'datepicker', 'menu', 'checkbox', 'label', 'tab'];
+    return tabKeys.indexOf(activeTab);
   };
 
   return (
@@ -66,7 +42,16 @@ const UiComponentsPage = () => {
         <h2 className="text-xl font-semibold mb-4">UI 컴포넌트 사용 예제</h2>
         <p className="text-sm text-gray-500 mb-6">https://heroicons.com/ 에서 아이콘 선택해서 사용하세요.</p>
         
-        {renderUiTabs()}
+        <Tab 
+          tabs={tabs}
+          defaultActiveTab={getActiveTabIndex()}
+          onChange={handleTabChange}
+          className="mb-6"
+          design={TAB_DESIGNS.OUTLINE}
+          iconPosition={ICON_POSITIONS.LEFT}
+          
+          showContent={false}
+        />
       </div>
       
       <div className="flex-1 overflow-auto">
@@ -77,6 +62,7 @@ const UiComponentsPage = () => {
         {activeTab === 'menu' && <MenuExample />}
         {activeTab === 'checkbox' && <CheckboxExample />}
         {activeTab === 'label' && <LabelExample />}
+        {activeTab === 'tab' && <TabExample />}
       </div>
     </div>
   );

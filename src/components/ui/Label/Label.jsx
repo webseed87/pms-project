@@ -44,7 +44,7 @@ const Label = ({
     
     // 라벨 타입별 추가 스타일
     if (labelType === LABEL_TYPES.BOX) {
-      return `h-14 min-w-28 px-3 py-2 bg-gray-50 outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-center items-center gap-9 ${className}`;
+      return `h-14 min-w-28 px-3 py-2 bg-gray-50  border border-gray-300 inline-flex justify-center items-center gap-9 ${className}`;
     } else if (labelType === LABEL_TYPES.PLAIN) {
       return `py-0.5 inline-flex justify-start items-center gap-9 ${className}`;
     }

@@ -112,7 +112,7 @@ const Button = ({
   // Size 스타일 (버튼 크기별 스타일)
   const sizeClasses = {
     [BUTTON_SIZES.SMALL]: 'text-xs px-3 py-1 rounded',
-    [BUTTON_SIZES.MEDIUM]: 'text-sm px-3 py-1.5 rounded',
+    [BUTTON_SIZES.MEDIUM]: 'text-sm px-3 p-2 rounded',
     [BUTTON_SIZES.LARGE]: 'text-base px-4 py-2 rounded',
     [BUTTON_SIZES.XLARGE]: 'text-lg px-8 py-4  w-full'
   };

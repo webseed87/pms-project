@@ -81,16 +81,27 @@ const Select = forwardRef(({
   // 선택된 옵션이 변경될 때마다 외부에 알림
   useEffect(() => {
     if (onChange && selectedOption !== undefined) {
-      const simulatedEvent = {
-        target: { name, value: selectedOption }
-      };
-      onChange(simulatedEvent);
+      // 이전 값과 현재 값이 같으면 불필요한 이벤트 발생 방지
+      if (selectedOption === value) {
+        return;
+      }
+      
+      // 비동기적으로 호출하여 리렌더링 사이클 방지
+      const timeoutId = setTimeout(() => {
+        const simulatedEvent = {
+          target: { name, value: selectedOption }
+        };
+        onChange(simulatedEvent);
+      }, 0);
+      
+      return () => clearTimeout(timeoutId);
     }
-  }, [selectedOption, onChange, name]);
+  }, [selectedOption]);
 
-  // 초기 선택 값 설정
+  // 초기 선택 값 설정 - 외부에서 value가 변경될 때만 실행
   useEffect(() => {
-    if (value !== undefined) {
+    // 현재 선택된 값과 다를 때만 업데이트하여 무한 루프 방지
+    if (value !== undefined && value !== selectedOption) {
       setSelectedOption(value);
     }
   }, [value]);

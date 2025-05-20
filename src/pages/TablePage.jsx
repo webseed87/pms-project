@@ -1,14 +1,14 @@
 import React from 'react';
+import { AliveScope } from 'react-activation';
+import AppInner from '../components/table/AppInner';
+import 'primereact/resources/themes/lara-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
-const TablePage = () => {
-  return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">테이블</h2>
-      <p className="text-gray-600 mb-6">
-        테이블 관련 내용이 여기에 표시됩니다.
-      </p>
-    </div>
-  );
-};
+const TablePage = () => (
+  <AliveScope>
+    <AppInner />
+  </AliveScope>
+);
 
-export default TablePage; 
+export default TablePage;
