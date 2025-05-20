@@ -8,13 +8,14 @@ import { CheckboxExample } from '../components/ui/Checkbox';
 import { LabelExample } from '../components/ui/Label';
 import Tab, { TAB_DESIGNS, ICON_POSITIONS } from '../components/ui/Tab';
 import { TabExample } from '../components/ui/Tab';
+import { UserBoxExample } from '../components/userbox';
 
 const UiComponentsPage = () => {
   const [activeTab, setActiveTab] = useState('button');
 
   // 탭 변경 핸들러
   const handleTabChange = (index) => {
-    const tabKeys = ['button', 'input', 'select', 'datepicker', 'menu', 'checkbox', 'label', 'tab'];
+    const tabKeys = ['button', 'input', 'select', 'datepicker', 'menu', 'checkbox', 'label', 'tab', 'userbox'];
     setActiveTab(tabKeys[index]);
   };
 
@@ -63,6 +64,7 @@ const UiComponentsPage = () => {
         {activeTab === 'checkbox' && <CheckboxExample />}
         {activeTab === 'label' && <LabelExample />}
         {activeTab === 'tab' && <TabExample />}
+
       </div>
     </div>
   );

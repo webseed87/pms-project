@@ -16,6 +16,7 @@ tailwindcss 사용하여 만든 컴포넌트 가이드 입니다.
 | Label | [src/components/ui/Label](src/components/ui/Label) | 폼 요소의 레이블 컴포넌트 |
 | Menu | [src/components/ui/Menu](src/components/ui/Menu) | 드롭다운 및 컨텍스트 메뉴 컴포넌트 |
 | Select | [src/components/ui/Select](src/components/ui/Select) | 드롭다운 선택 컴포넌트 |
+| Modal | [src/components/ui/Modal](src/components/ui/Modal) | 팝업 형태의 모달 다이얼로그 컴포넌트 |
 
 ## 컴포넌트 주요 기능 및 사용법
 
@@ -71,6 +72,14 @@ tailwindcss 사용하여 만든 컴포넌트 가이드 입니다.
 - 옵션 그룹화
 - 검색 기능
 - 커스텀 렌더링
+
+### Modal 컴포넌트
+팝업 형태의 모달 다이얼로그를 표시하는 컴포넌트입니다.
+- 화면 중앙에 오버레이와 함께 표시
+- 모달 타이틀과 닫기 버튼 제공
+- 스크롤 가능한 내용 영역
+- 배경 클릭으로 닫기 옵션
+- 다양한 너비 옵션
 
 ## 컴포넌트 사용 가이드라인
 

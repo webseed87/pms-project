@@ -85,7 +85,7 @@ const MenuItem = ({ item, isActive, onClick, onSubMenuToggle, selectedItemId }) 
         
         {/* 텍스트와 화살표 컨테이너 */}
         <div className="flex-1 flex justify-between items-center">
-          <div className={`justify-start text-base font-medium font-['Pretendard'] leading-normal ${isActive ? 'text-slate-200' : 'text-slate-900'}`}>
+          <div className={`justify-start text-base font-medium  leading-normal ${isActive ? 'text-slate-200' : 'text-slate-900'}`}>
             {item.label}
           </div>
           
@@ -193,7 +193,7 @@ const Menu = ({
   };
   
   return (
-    <div className={`bg-white shadow-sm border border-gray-300 ${className}`}>
+    <div className={`bg-white shadow-sm border-b border-gray-300 ${className}`}>
       {/* 메뉴 헤더 */}
       {title && (
         <div 

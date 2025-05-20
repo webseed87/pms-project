@@ -110,7 +110,7 @@ div[style*="overflow:auto"] {
   font-style: normal;
   font-weight: 400;
   line-height: 1.2;
-  border: 1px solid #D1D5DC !important;
+
 }
 
 /* 정렬 가능한 컬럼 헤더 텍스트 정렬 */
@@ -120,14 +120,7 @@ div[style*="overflow:auto"] {
   align-items: center;
 }
 
-/* 테이블 체크박스 컬럼 스타일 강제 적용 */
-.p-datatable .p-selection-column,
-.p-datatable .p-checkbox-column,
-.p-datatable .checkbox-cell,
-.p-datatable .checkbox-header-cell {
-  border: 1px solid #D1D5DC !important;
-  
-}
+
 
 
 

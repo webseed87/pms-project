@@ -5,6 +5,7 @@ import UiComponentsPage from './pages/UiComponentsPage';
 import TablePage from './pages/TablePage';
 import PagePage from './pages/PagePage';
 import SearchBox from './pages/SearchBox';
+import ModalPage from './pages/ModalPage';
 import { ButtonExample } from './components/ui/Button';
 import InputExample from './components/ui/Input/InputExample';
 import SelectExample from './components/ui/Select/SelectExample';
@@ -12,6 +13,7 @@ import DatePickerExample from './components/ui/DatePicker/DatePickerExample';
 import { MenuExample } from './components/ui/Menu';
 import { CheckboxExample } from './components/ui/Checkbox';
 import { LabelExample } from './components/ui/Label';
+import UserBox from './components/userbox';
 
 // 좌측 메뉴 컴포넌트
 const LeftMenu = ({ isCollapsed, onToggle }) => {
@@ -20,6 +22,13 @@ const LeftMenu = ({ isCollapsed, onToggle }) => {
   const isActive = (path) => {
     return location.pathname === path;
   };
+
+  // 사용자 옵션
+  const userOptions = [
+    { label: '내 프로필', onClick: () => console.log('내 프로필 클릭') },
+    { label: '설정', onClick: () => console.log('설정 클릭') },
+    { label: '로그아웃', onClick: () => console.log('로그아웃 클릭') },
+  ];
 
   return (
     <div className={`${isCollapsed ? 'w-16' : 'w-64'} bg-gray-50 min-h-screen overflow-y-auto border-r border-gray-200 transition-all duration-300 ease-in-out`}>
@@ -36,6 +45,9 @@ const LeftMenu = ({ isCollapsed, onToggle }) => {
           )}
         </button>
       </div>
+      
+    
+      
       <nav className="mt-4">
         <ul>
           <li>
@@ -70,14 +82,25 @@ const LeftMenu = ({ isCollapsed, onToggle }) => {
           </li>
           <li>
             <Link
+              to="/modal"
+              className={`w-full text-left px-4 py-3 block ${
+                isActive('/modal') ? 'bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-600' : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {!isCollapsed && "모달 팝업"}
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/page"
               className={`w-full text-left px-4 py-3 block ${
                 isActive('/page') ? 'bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-600' : 'text-gray-700 hover:bg-gray-100'
               }`}
             >
-              {!isCollapsed && "페이지"}
+              {!isCollapsed && "예제 페이지"}
             </Link>
           </li>
+        
         </ul>
       </nav>
     </div>
@@ -106,6 +129,7 @@ function App() {
               <Route path="/searchbox" element={<SearchBox />} />
               <Route path="/table" element={<TablePage />} />
               <Route path="/page" element={<PagePage />} />
+              <Route path="/modal" element={<ModalPage />} />
             </Routes>
           </div>
         </div>
