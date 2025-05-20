@@ -4,6 +4,46 @@
 
 tailwindcss 사용하여 만든 컴포넌트 가이드 입니다.
 
+## 프로젝트 폴더 구조
+
+```
+my-project/
+├── src/
+│   ├── assets/        # 이미지, 아이콘 등 정적 자산
+│   ├── components/    # 재사용 가능한 컴포넌트
+│   │   ├── form/      # 폼 관련 컴포넌트
+│   │   ├── modal/     # 모달 다이얼로그 컴포넌트
+│   │   ├── searchbox/ # 검색 관련 컴포넌트
+│   │   ├── sdiebottom/ # 사이드 바 하단 컴포넌트
+│   │   ├── table/     # 테이블 컴포넌트
+│   │   ├── topbar/    # 상단 바 컴포넌트
+│   │   ├── ui/        # 기본 UI 컴포넌트 (버튼, 입력 필드 등)
+│   │   └── userbox/   # 사용자 정보 표시 컴포넌트
+│   ├── pages/         # 페이지 컴포넌트
+│   │   ├── PagePage.jsx       # 메인 페이지 레이아웃
+│   │   ├── ModalPage.jsx      # 모달 예제 페이지
+│   │   ├── TablePage.jsx      # 테이블 예제 페이지
+│   │   ├── UiComponentsPage.jsx # UI 컴포넌트 예제 페이지
+│   │   └── SearchBox.jsx      # 검색 컴포넌트 예제 페이지
+│   ├── App.jsx        # 애플리케이션 루트 컴포넌트
+│   ├── main.jsx       # 애플리케이션 진입점
+│   └── index.css      # 전역 CSS
+```
+
+### 주요 디렉토리 설명
+
+- **components**: 재사용 가능한 UI 컴포넌트들이 모듈화되어 있습니다.
+  - **ui**: 기본 UI 요소 (버튼, 입력 필드, 탭 등)
+  - **topbar**: 애플리케이션 상단 네비게이션 바
+  - **userbox**: 사용자 프로필 정보 표시
+  - **sdiebottom**: 사이드바 하단 영역 컴포넌트
+  - **searchbox**: 검색 관련 컴포넌트
+  - **table**: 데이터 테이블 컴포넌트
+
+- **pages**: 각 페이지 레이아웃과 로직이 포함된 컴포넌트들입니다.
+  - **PagePage.jsx**: 메인 페이지 레이아웃
+  - **TablePage.jsx**: 테이블 예제 페이지
+
 ## 컴포넌트 목록
 
 | 컴포넌트 | 경로 | 설명 |

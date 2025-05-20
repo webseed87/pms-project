@@ -13,7 +13,7 @@ const TopBar = ({ title = "Project Manager System", className = "" }) => {
   return (
     <div className={`h-14 min-w-[1280px] w-full px-5 py-2.5 bg-slate-800 border-b border-gray-200 inline-flex justify-start items-center gap-2.5 overflow-hidden ${className}`}>
       <div className="flex justify-start items-center gap-2.5">
-        <img src="../../public/pms.svg" alt="pms" className="w-6 h-6" />
+        <img src="/pms.svg" alt="pms" className="w-6 h-6" />
         <div className="justify-start text-gray-50 text-lg font-normal font-['Pretendard']">{title}</div>
       </div>
     </div>
