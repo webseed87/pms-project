@@ -85,28 +85,28 @@ const Button = ({
   // Type 스타일 (버튼 종류별 스타일)
   const typeClasses = {
     // PRIMARY - 네이비 블루 검색 버튼 (주요 작업용)
-    [BUTTON_TYPES.PRIMARY]: 'bg-blue-950 text-white hover:bg-blue-500',
+    [BUTTON_TYPES.PRIMARY]: 'bg-blue-950 text-white hover:bg-blue-500 focus:bg-blue-800 focus:ring-2 focus:ring-blue-300 focus:ring-offset-1',
     
     // SECONDARY - 밝은 파란색 버튼 (보조 작업용)
-    [BUTTON_TYPES.SECONDARY]: 'bg-[#4285f4] text-white hover:bg-blue-300',
+    [BUTTON_TYPES.SECONDARY]: 'bg-[#4285f4] text-white hover:bg-blue-300 focus:bg-blue-400 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1',
     
     // DANGER - 빨간색 강조/삭제 버튼
-    [BUTTON_TYPES.DANGER]: 'bg-white border border-[#e0e0e0] text-[#f44336] hover:bg-[#fff8f8]',
+    [BUTTON_TYPES.DANGER]: 'bg-white border border-[#e0e0e0] text-[#f44336] hover:bg-[#fff8f8] focus:bg-[#fff8f8] focus:border-[#f44336] focus:ring-1 focus:ring-[#f44336]',
     
     // LINE - 테두리만 있는 버튼 (outline)
-    [BUTTON_TYPES.LINE]: 'bg-white border border-gray-300 text-gray-700 hover:bg-slate-200',
+    [BUTTON_TYPES.LINE]: 'bg-white border border-gray-300 text-gray-700 hover:bg-slate-200 focus:bg-slate-100 focus:border-gray-400 focus:ring-1 focus:ring-gray-400',
     
     // SAVE - 저장 버튼 
-    [BUTTON_TYPES.SAVE]: 'bg-white text-blue-950 outline outline-1 outline-offset-[-1px] outline-blue-950 hover:bg-gray-50 hover:text-blue-800 hover:outline-blue-800',
+    [BUTTON_TYPES.SAVE]: 'bg-white text-blue-950 outline outline-1 outline-offset-[-1px] outline-blue-950 hover:bg-gray-50 hover:text-blue-800 hover:outline-blue-800 focus:bg-gray-50 focus:text-blue-800 focus:outline-blue-800 focus:ring-1 focus:ring-blue-200',
     
     // ADD - 추가 버튼 
-    [BUTTON_TYPES.ADD]: 'bg-white text-blue-700 outline outline-1 outline-offset-[-1px] outline-blue-700 hover:bg-blue-50 hover:text-blue-900 hover:outline-blue-900',
+    [BUTTON_TYPES.ADD]: 'bg-white text-blue-700 outline outline-1 outline-offset-[-1px] outline-blue-700 hover:bg-blue-50 hover:text-blue-900 hover:outline-blue-900 focus:bg-blue-50 focus:text-blue-900 focus:outline-blue-900 focus:ring-1 focus:ring-blue-200',
     
     // DELETE - 삭제 버튼 
-    [BUTTON_TYPES.DELETE]: 'bg-white text-rose-600 outline outline-1 outline-offset-[-1px] outline-rose-600 hover:bg-rose-50 hover:text-rose-800 hover:outline-rose-800',
+    [BUTTON_TYPES.DELETE]: 'bg-white text-rose-600 outline outline-1 outline-offset-[-1px] outline-rose-600 hover:bg-rose-50 hover:text-rose-800 hover:outline-rose-800 focus:bg-rose-50 focus:text-rose-800 focus:outline-rose-800 focus:ring-1 focus:ring-rose-200',
 
     // REFRESH - 리프레쉬 버튼 
-    [BUTTON_TYPES.REFRESH]: 'bg-slate-400 text-gray-50  rounded outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-center items-center gap-2.5',
+    [BUTTON_TYPES.REFRESH]: 'bg-slate-400 text-gray-50 rounded outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-center items-center gap-2.5 focus:bg-slate-500 focus:outline-gray-400 focus:ring-1 focus:ring-gray-300',
   };
   
   // Size 스타일 (버튼 크기별 스타일)
