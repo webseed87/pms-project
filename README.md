@@ -54,11 +54,11 @@ my-project/
 │   │       ├── UserBox.jsx         # 사용자 정보 박스
 │   │       └── index.js            # 컴포넌트 내보내기
 │   ├── pages/         # 페이지 컴포넌트
-│   │   ├── PagePage.jsx       # 메인 페이지 레이아웃
-│   │   ├── ModalPage.jsx      # 모달 예제 페이지
-│   │   ├── TablePage.jsx      # 테이블 예제 페이지
-│   │   ├── UiComponentsPage.jsx # UI 컴포넌트 예제 페이지
-│   │   └── SearchBox.jsx      # 검색 컴포넌트 예제 페이지
+│   │   ├── PagePage.jsx       # 메인 페이지 레이아웃과 기본 구조를 제공하는 페이지 컴포넌트
+│   │   ├── ModalPage.jsx      # 다양한 모달 다이얼로그 컴포넌트 사용 예제 및 테스트 페이지
+│   │   ├── TablePage.jsx      # 데이터 테이블 컴포넌트 활용 및 설정 예제 페이지
+│   │   ├── UiComponentsPage.jsx # 버튼, 탭, 입력 필드 등 기본 UI 컴포넌트 예시 모음 페이지
+│   │   └── SearchBox.jsx      # 고급 검색 기능과 필터링 기능 구현 예제 페이지
 │   ├── App.jsx        # 애플리케이션 루트 컴포넌트
 │   ├── main.jsx       # 애플리케이션 진입점
 │   └── index.css      # 전역 CSS
@@ -78,11 +78,11 @@ my-project/
   - **userbox**: 사용자 프로필 정보 표시 컴포넌트
 
 - **pages**: 각 페이지 레이아웃과 로직이 포함된 컴포넌트들입니다.
-  - **PagePage.jsx**: 메인 페이지 레이아웃
-  - **ModalPage.jsx**: 모달 컴포넌트 예제 페이지
-  - **TablePage.jsx**: 테이블 컴포넌트 예제 페이지
-  - **UiComponentsPage.jsx**: UI 컴포넌트 예제 페이지
-  - **SearchBox.jsx**: 검색 컴포넌트 예제 페이지
+  - **PagePage.jsx**: 메인 페이지 레이아웃과 기본 구조를 제공하는 페이지 컴포넌트
+  - **ModalPage.jsx**: 다양한 모달 다이얼로그 컴포넌트 사용 예제 및 테스트 페이지
+  - **TablePage.jsx**: 데이터 테이블 컴포넌트 활용 및 설정 예제 페이지
+  - **UiComponentsPage.jsx**: 버튼, 탭, 입력 필드 등 기본 UI 컴포넌트 예시 모음 페이지
+  - **SearchBox.jsx**: 고급 검색 기능과 필터링 기능 구현 예제 페이지
 
 ## 컴포넌트 목록
 

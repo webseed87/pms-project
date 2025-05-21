@@ -24,7 +24,7 @@ const SubMenu = ({ items, level = 2, onMenuItemClick, parentId, selectedItemId }
         return (
           <div
             key={item.id}
-            className={`py-3 px-8 text-sm text-slate-700 border-t border-gray-200 cursor-pointer ${isSelected ? 'bg-blue-50' : 'hover:bg-blue-50'}`}
+            className={` px-12 py-3 text-sm text-slate-800 border-t border-gray-200 cursor-pointer ${isSelected ? 'bg-blue-50' : 'hover:bg-blue-50'}`}
             onClick={(e) => {
               e.stopPropagation();
               if (item.onClick) item.onClick();
