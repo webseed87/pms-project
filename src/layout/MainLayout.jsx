@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import TopBar from '../components/topbar/TopBar';
 import Menu from '../components/ui/Menu';
 import SideBottom from '../components/sdiebottom/SideBottom';
-import { BUTTON_TYPES } from '../components/ui/Button';
+import Button, { BUTTON_TYPES , BUTTON_SIZES } from '../components/ui/Button';
 import { 
   Squares2X2Icon, 
   DocumentTextIcon, 
@@ -12,10 +12,14 @@ import {
   UserGroupIcon, 
   NewspaperIcon,
   Bars3Icon,
-  XMarkIcon as CloseIcon
+  XMarkIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon
 } from '@heroicons/react/24/outline';
 import UserBox from '../components/userbox';
-import Tab, { TAB_DESIGNS, ICON_POSITIONS } from '../components/ui/Tab';
+import Tab, { TAB_DESIGNS , ICON_POSITIONS} from '../components/ui/Tab';
 
 const MainLayout = ({ children }) => {  
   // 선택된 메뉴 상태 추가
@@ -138,17 +142,17 @@ const MainLayout = ({ children }) => {
   // 아웃라인 디자인 탭 설정
   const outlineTabs = [
     {
-      icon: <CloseIcon className="w-5 h-5" />,
+      icon: <XMarkIcon className="w-5 h-5" />,
       label: '프로젝트 정보',
       content: <div className="p-4 border rounded bg-gray-50">프로젝트 정보 내용입니다.</div>
     },
     {
-      icon: <CloseIcon className="w-5 h-5" />,
+      icon: <XMarkIcon className="w-5 h-5" />,
       label: '과제목록',
       content: <div className="p-4 border rounded bg-gray-50">과제목록 내용입니다.</div>
     },
     {
-      icon: <CloseIcon className="w-5 h-5" />,
+      icon: <XMarkIcon className="w-5 h-5" />,
       label: '이슈관리',
       content: <div className="p-4 border rounded bg-gray-50">이슈관리 내용입니다.</div>
     },
@@ -190,7 +194,7 @@ const MainLayout = ({ children }) => {
               className="p-2 rounded-md text-gray-600 hover:bg-gray-100"
               onClick={toggleMobileMenu}
             >
-              <CloseIcon className="w-5 h-5" />
+              <XMarkIcon className="w-5 h-5" />
             </button>
           </div>
           
@@ -260,6 +264,7 @@ const MainLayout = ({ children }) => {
             </div>
           </div>
           <div className='flex flex-col p-5 h-full border-l border-gray-300 gap-4 overflow-auto'>
+            <div className='flex justify-end items-center gap-2'>
             <Tab 
               tabs={outlineTabs}
               defaultActiveTab={0}
@@ -267,7 +272,26 @@ const MainLayout = ({ children }) => {
               iconPosition={ICON_POSITIONS.RIGHT}
               showContent={false}
             />
-            
+            <Button 
+                  buttonType={BUTTON_TYPES.LINE}
+                  size={BUTTON_SIZES.MEDIUM}
+                  icon={<ChevronLeftIcon className="w-5 h-5" />}
+
+                >
+                </Button>
+                <Button 
+                  buttonType={BUTTON_TYPES.LINE}
+                  size={BUTTON_SIZES.MEDIUM}
+                  icon={<ChevronRightIcon className="w-5 h-5" />}
+                >
+                </Button>
+                <Button 
+                  buttonType={BUTTON_TYPES.LINE}
+                  size={BUTTON_SIZES.MEDIUM}
+                  icon={<XMarkIcon className="w-5 h-5" />}
+                >
+                </Button>
+            </div>
             {/* 콘텐츠 영역 - children으로 주입받음 */}
             <div className="w-full min-w-0">
               {children}

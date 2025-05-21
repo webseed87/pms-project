@@ -17,14 +17,42 @@ my-project/
 ├── src/
 │   ├── assets/        # 이미지, 아이콘 등 정적 자산
 │   ├── components/    # 재사용 가능한 컴포넌트
+│   │   ├── attachment/ # 파일 첨부 관련 컴포넌트
+│   │   │   ├── AttachmentAdd.jsx    # 파일 업로드 및 첨부 관리
+│   │   │   └── AttachmentList.jsx   # 첨부 파일 목록 표시
 │   │   ├── form/      # 폼 관련 컴포넌트
+│   │   │   ├── FormField.jsx        # 범용 입력 필드 컴포넌트
+│   │   │   └── index.js            # 폼 컴포넌트 내보내기
 │   │   ├── modal/     # 모달 다이얼로그 컴포넌트
+│   │   │   ├── TestDetailInfoModal.jsx  # 테스트 상세 정보 모달
+│   │   │   └── DeveloperSearchModal.jsx # 개발자 검색 모달
 │   │   ├── searchbox/ # 검색 관련 컴포넌트
+│   │   │   ├── SearchForm.jsx       # 고급 검색 양식
+│   │   │   ├── ToolBar.jsx         # 검색 결과 작업 도구
+│   │   │   └── SearchForm.css      # 검색 폼 스타일
 │   │   ├── sdiebottom/ # 사이드 바 하단 컴포넌트
+│   │   │   ├── SideBottom.jsx      # 사이드바 하단 기능 버튼
+│   │   │   └── index.js            # 컴포넌트 내보내기
 │   │   ├── table/     # 테이블 컴포넌트
+│   │   │   ├── CustomPrimeTable.jsx # PrimeReact 기반 고급 테이블
+│   │   │   └── CustomPrimeTable.css # 테이블 스타일
 │   │   ├── topbar/    # 상단 바 컴포넌트
-│   │   ├── ui/        # 기본 UI 컴포넌트 (버튼, 입력 필드 등)
+│   │   │   ├── TopBar.jsx          # 상단 네비게이션 바
+│   │   │   └── index.js            # 컴포넌트 내보내기
+│   │   ├── ui/        # 기본 UI 컴포넌트
+│   │   │   ├── Button/             # 버튼 컴포넌트
+│   │   │   ├── Checkbox/           # 체크박스 컴포넌트
+│   │   │   ├── DatePicker/         # 날짜 선택 컴포넌트
+│   │   │   ├── Input/              # 입력 필드 컴포넌트
+│   │   │   ├── Label/              # 레이블 컴포넌트
+│   │   │   ├── Menu/               # 메뉴 컴포넌트
+│   │   │   ├── Modal/              # 모달 컴포넌트
+│   │   │   ├── Select/             # 선택 컴포넌트
+│   │   │   ├── State/              # 상태 표시 컴포넌트
+│   │   │   └── Tab/                # 탭 컴포넌트
 │   │   └── userbox/   # 사용자 정보 표시 컴포넌트
+│   │       ├── UserBox.jsx         # 사용자 정보 박스
+│   │       └── index.js            # 컴포넌트 내보내기
 │   ├── pages/         # 페이지 컴포넌트
 │   │   ├── PagePage.jsx       # 메인 페이지 레이아웃
 │   │   ├── ModalPage.jsx      # 모달 예제 페이지
@@ -39,16 +67,22 @@ my-project/
 ### 주요 디렉토리 설명
 
 - **components**: 재사용 가능한 UI 컴포넌트들이 모듈화되어 있습니다.
-  - **ui**: 기본 UI 요소 (버튼, 입력 필드, 탭 등)
+  - **attachment**: 파일 첨부 및 관리를 위한 컴포넌트
+  - **form**: 사용자 입력을 받는 폼 관련 컴포넌트
+  - **modal**: 팝업 형태의 모달 다이얼로그 컴포넌트
+  - **searchbox**: 고급 검색 기능과 관련된 컴포넌트
+  - **sdiebottom**: 사이드바 하단 영역의 기능 버튼과 링크
+  - **table**: PrimeReact 기반의 고급 데이터 테이블 컴포넌트
   - **topbar**: 애플리케이션 상단 네비게이션 바
-  - **userbox**: 사용자 프로필 정보 표시
-  - **sdiebottom**: 사이드바 하단 영역 컴포넌트
-  - **searchbox**: 검색 관련 컴포넌트
-  - **table**: 데이터 테이블 컴포넌트
+  - **ui**: 기본 UI 요소들 (버튼, 입력 필드, 탭 등)
+  - **userbox**: 사용자 프로필 정보 표시 컴포넌트
 
 - **pages**: 각 페이지 레이아웃과 로직이 포함된 컴포넌트들입니다.
   - **PagePage.jsx**: 메인 페이지 레이아웃
-  - **TablePage.jsx**: 테이블 예제 페이지
+  - **ModalPage.jsx**: 모달 컴포넌트 예제 페이지
+  - **TablePage.jsx**: 테이블 컴포넌트 예제 페이지
+  - **UiComponentsPage.jsx**: UI 컴포넌트 예제 페이지
+  - **SearchBox.jsx**: 검색 컴포넌트 예제 페이지
 
 ## 컴포넌트 목록
 
