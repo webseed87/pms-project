@@ -101,7 +101,7 @@ const Tab = ({
         isActive ? 
         'bg-blue-50 outline-blue-800' : 
         'bg-white outline-gray-300'
-      } inline-flex justify-center items-center gap-2.5 cursor-pointer whitespace-nowrap`;
+      } inline-flex justify-center items-center gap-2 cursor-pointer whitespace-nowrap`;
     }
   };
   

@@ -15,6 +15,22 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
  * >
  *   <div>모달 내용</div>
  * </Modal>
+ * 
+ * @example
+ * // 헤더에 액션 버튼 추가
+ * <Modal
+ *   isOpen={isModalOpen}
+ *   onClose={() => setIsModalOpen(false)}
+ *   title="테스트 상세 정보"
+ *   headerActions={
+ *     <div className="flex space-x-2">
+ *       <Button>저장</Button>
+ *       <Button>수정</Button>
+ *     </div>
+ *   }
+ * >
+ *   <div>모달 내용</div>
+ * </Modal>
  */
 const Modal = ({ 
   isOpen, 
@@ -22,7 +38,8 @@ const Modal = ({
   title, 
   children, 
   width = 'max-w-3xl',
-  closeOnOverlayClick = true 
+  closeOnOverlayClick = true,
+  headerActions
 }) => {
   // 모달이 열려있을 때 body 스크롤 방지
   useEffect(() => {
@@ -64,10 +81,15 @@ const Modal = ({
         </button>
         
         {/* 모달 헤더 */}
-        <div data-type="Default" className="self-stretch h-12 p-2.5 border-b border-gray-600 flex justify-between items-center">
+        <div data-type="Default" className="self-stretch h-14 p-2.5 border-b border-gray-600 flex justify-between items-center">
           <div className="self-stretch flex flex-col justify-center items-start">
             <div className="justify-start text-slate-900 text-xl font-medium font-['Pretendard'] leading-7">{title}</div>
           </div>
+          {headerActions && (
+            <div className="flex items-center">
+              {headerActions}
+            </div>
+          )}
         </div>
         
         {/* 모달 내용 */}
@@ -96,7 +118,10 @@ Modal.propTypes = {
   width: PropTypes.string,
   
   /** 오버레이 클릭 시 닫기 여부 */
-  closeOnOverlayClick: PropTypes.bool
+  closeOnOverlayClick: PropTypes.bool,
+  
+  /** 헤더에 표시할 액션 버튼 */
+  headerActions: PropTypes.node
 };
 
 export default Modal; 

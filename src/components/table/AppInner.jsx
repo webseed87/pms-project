@@ -275,7 +275,7 @@ export default function AppInner() {
       {/* 테이블 컴포넌트 */}
       <div className="self-stretch p-4 bg-white outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-between items-center" style={{
           width: '100%',
-          overflow: 'hidden'
+      
       }}>
 
         <CustomPrimeTable
@@ -283,12 +283,12 @@ export default function AppInner() {
             width: '100%', 
             overflow:'auto',
             borderTop: '1px solid #0F172B',
-            borderLeft: '1px solid #D1D5DC',
             '--scrollbar-thumb-color': '#E2E8F0',
             '--scrollbar-track-color': '#f8fafc',
             '--scrollbar-hover-color': '#cbd5e1',
             scrollbarWidth: 'thin',
             scrollbarColor: 'var(--scrollbar-thumb-color) var(--scrollbar-track-color)',
+            
           }}
           tableHeight='400px'
           data={sampleData}                               // 테이블 데이터

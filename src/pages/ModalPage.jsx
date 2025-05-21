@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../components/ui/Button';
 import DeveloperSearchModal from '../components/modal/DeveloperSearchModal';
+import TestDetailInfoModal from '../components/modal/TestDetailInfoModal';
 import Tab, { TAB_POSITIONS, ICON_POSITIONS } from '../components/ui/Tab/Tab';
 
 /**
@@ -13,6 +14,18 @@ const ModalPage = () => {
   
   // 선택된 개발자 상태
   const [selectedDeveloper, setSelectedDeveloper] = useState(null);
+  
+  // 테스트 상세 정보 모달 상태
+  const [isTestDetailModalOpen, setIsTestDetailModalOpen] = useState(false);
+  
+  // 저장된 테스트 정보 상태
+  const [savedTestData, setSavedTestData] = useState(null);
+  
+  // 테스트 정보 저장 핸들러
+  const handleSaveTestData = (data) => {
+    console.log('저장된 테스트 정보:', data);
+    setSavedTestData(data);
+  };
   
   // 탭 설정
   const tabs = [
@@ -51,21 +64,21 @@ const ModalPage = () => {
             <h2 className="text-xl font-semibold mb-4">모달 사용법</h2>
             <div className="bg-gray-50 p-4 rounded-md font-mono text-sm overflow-auto">
               {`
-// 모달 상태 관리
-const [isModalOpen, setIsModalOpen] = useState(false);
-const [selectedDeveloper, setSelectedDeveloper] = useState(null);
+              // 모달 상태 관리
+              const [isModalOpen, setIsModalOpen] = useState(false);
+              const [selectedDeveloper, setSelectedDeveloper] = useState(null);
 
-// 모달 컴포넌트 사용
-<DeveloperSearchModal
-  isOpen={isModalOpen}
-  onClose={() => setIsModalOpen(false)}
-  onSelect={(developer) => setSelectedDeveloper(developer)}
-/>
+              // 모달 컴포넌트 사용
+              <DeveloperSearchModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSelect={(developer) => setSelectedDeveloper(developer)}
+              />
 
-// 모달 열기 버튼
-<Button onClick={() => setIsModalOpen(true)}>
-  모달 열기
-</Button>
+              // 모달 열기 버튼
+              <Button onClick={() => setIsModalOpen(true)}>
+                모달 열기
+              </Button>
               `}
             </div>
           </div>
@@ -73,14 +86,64 @@ const [selectedDeveloper, setSelectedDeveloper] = useState(null);
       )
     },
     {
-      label: '기타 모달 예제',
+      label: '테스트 상세 정보 모달',
       content: (
-        <div className="p-6">
+        <div className="p-6 space-y-6">
           <div className="bg-white p-6 rounded-md shadow-sm border border-gray-200">
-            <h2 className="text-xl font-semibold mb-4">준비 중</h2>
-            <p className="text-gray-600">
-              추가 모달 예제가 준비 중입니다. 곧 업데이트될 예정입니다.
+            <h2 className="text-xl font-semibold mb-4">테스트 상세 정보 모달</h2>
+            <p className="text-gray-600 mb-4">
+              테스트 정보를 조회하고 편집할 수 있는 모달 팝업 컴포넌트입니다.
+              테스트 정보 관리, 첨부 파일 업로드 등의 기능을 제공합니다.
             </p>
+            
+            <div className="flex flex-col space-y-4">
+              <Button 
+                className="w-48 bg-blue-700 text-white"
+                onClick={() => setIsTestDetailModalOpen(true)}
+              >
+                테스트 정보 모달 열기
+              </Button>
+              
+              {savedTestData && (
+                <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-md">
+                  <h3 className="font-medium mb-2">저장된 테스트 정보:</h3>
+                  <div className="max-h-60 overflow-auto">
+                    <pre className="text-xs whitespace-pre-wrap">
+                      {JSON.stringify(savedTestData, null, 2)}
+                    </pre>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="bg-white p-6 rounded-md shadow-sm border border-gray-200">
+            <h2 className="text-xl font-semibold mb-4">테스트 모달 사용법</h2>
+            <div className="bg-gray-50 p-4 rounded-md font-mono text-sm overflow-auto">
+              {`
+                // 모달 상태 관리
+                const [isModalOpen, setIsModalOpen] = useState(false);
+                const [savedData, setSavedData] = useState(null);
+
+                // 저장 핸들러
+                const handleSave = (data) => {
+                  console.log('저장된 테스트 정보:', data);
+                  setSavedData(data);
+                };
+
+                // 모달 컴포넌트 사용
+                <TestDetailInfoModal
+                  isOpen={isModalOpen}
+                  onClose={() => setIsModalOpen(false)}
+                  onSave={handleSave}
+                />
+
+                // 모달 열기 버튼
+                <Button onClick={() => setIsModalOpen(true)}>
+                  테스트 정보 모달 열기
+                </Button>
+                              `}
+            </div>
           </div>
         </div>
       )
@@ -105,6 +168,13 @@ const [selectedDeveloper, setSelectedDeveloper] = useState(null);
           isOpen={isDeveloperModalOpen}
           onClose={() => setIsDeveloperModalOpen(false)}
           onSelect={(developer) => setSelectedDeveloper(developer)}
+        />
+        
+        {/* 테스트 상세 정보 모달 */}
+        <TestDetailInfoModal
+          isOpen={isTestDetailModalOpen}
+          onClose={() => setIsTestDetailModalOpen(false)}
+          onSave={handleSaveTestData}
         />
       </div>
     </div>

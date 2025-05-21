@@ -9,13 +9,14 @@ import { LabelExample } from '../components/ui/Label';
 import Tab, { TAB_DESIGNS, ICON_POSITIONS } from '../components/ui/Tab';
 import { TabExample } from '../components/ui/Tab';
 import { UserBoxExample } from '../components/userbox';
+import { StateBadgeExample } from '../components/ui/State';
 
 const UiComponentsPage = () => {
   const [activeTab, setActiveTab] = useState('button');
 
   // 탭 변경 핸들러
   const handleTabChange = (index) => {
-    const tabKeys = ['button', 'input', 'select', 'datepicker', 'menu', 'checkbox', 'label', 'tab', 'userbox'];
+    const tabKeys = ['button', 'input', 'select', 'datepicker', 'menu', 'checkbox', 'label', 'tab',  'statebadge'];
     setActiveTab(tabKeys[index]);
   };
 
@@ -29,11 +30,12 @@ const UiComponentsPage = () => {
     { label: 'Checkbox 컴포넌트', content: null },
     { label: 'Label 컴포넌트', content: null },
     { label: 'Tab 컴포넌트', content: null },
+    { label: 'StateBadge 컴포넌트', content: null },
   ];
 
   // 활성 탭 인덱스 계산
   const getActiveTabIndex = () => {
-    const tabKeys = ['button', 'input', 'select', 'datepicker', 'menu', 'checkbox', 'label', 'tab'];
+    const tabKeys = ['button', 'input', 'select', 'datepicker', 'menu', 'checkbox', 'label', 'tab',  'statebadge'];
     return tabKeys.indexOf(activeTab);
   };
 
@@ -64,7 +66,7 @@ const UiComponentsPage = () => {
         {activeTab === 'checkbox' && <CheckboxExample />}
         {activeTab === 'label' && <LabelExample />}
         {activeTab === 'tab' && <TabExample />}
-
+        {activeTab === 'statebadge' && <StateBadgeExample />}
       </div>
     </div>
   );

@@ -11,9 +11,9 @@ import { Calendar } from 'primereact/calendar';
 import { addLocale } from 'primereact/api';
 import { Dialog } from 'primereact/dialog';
 import { Tooltip } from 'primereact/tooltip';
-import Button, { BUTTON_TYPES } from '../ui/Button';
+import Button, { BUTTON_TYPES } from '../../components/ui/Button';
 import { ArrowDownIcon } from '@heroicons/react/24/outline';
-import './primeTable.css';
+import './CustomPrimeTable.css';
 
 /**
  * 한글 로케일을 Calendar 컴포넌트에 등록
@@ -526,7 +526,7 @@ export default function CustomPrimeTable({
 
   // ===== 렌더링 =====
   return (
-    <div style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', ...style}}>
+    <div style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', ...style}}>
       {/* ContextMenu 렌더링 */}
       {contextMenuEnabled && (
         <ContextMenu
@@ -551,16 +551,15 @@ export default function CustomPrimeTable({
           onSelectionChange={onSelectionChange}
           scrollable
           scrollHeight={tableHeight}
-          frozenHeader
           resizableColumns
           style={{ width: '100%' }}
           tableStyle={{ width: '100%', minWidth: '2000px' }}
-          rowHeight={36}
           contextMenuSelection={contextMenuSelection}
           onContextMenuSelectionChange={(e) => setContextMenuSelection(e.value)}
           onContextMenu={contextMenuEnabled ? handleContextMenu : undefined}
           onRowDoubleClick={onDoubleClick ? (e) => onDoubleClick(e.data) : undefined}
           editMode={cellEditEnabled ? 'cell' : undefined}
+          className="custom-data-table" // 커스텀 클래스 추가
           >
           {/* 체크박스 컬럼 */}
           {selectionEnabled && (
@@ -643,7 +642,8 @@ export default function CustomPrimeTable({
           justifyContent: 'center', 
           padding: '12px 0', 
           marginTop: '10px',
-          backgroundColor: 'white'
+          backgroundColor: 'white',
+       
         }}>
           <Button 
             buttonType={BUTTON_TYPES.SECONDARY}
@@ -656,5 +656,6 @@ export default function CustomPrimeTable({
         </div>
       )}
     </div>
+    
   );
 }

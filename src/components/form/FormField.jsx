@@ -13,7 +13,8 @@ export const FIELD_TYPES = {
   INPUT: 'input',           // 일반 텍스트 입력
   SELECT: 'select',         // 선택 상자
   DATE: 'date',             // 단일 날짜 선택
-  DATE_RANGE: 'dateRange'   // 날짜 범위 선택
+  DATE_RANGE: 'dateRange',  // 날짜 범위 선택
+  TEXTAREA: 'textarea'      // 여러 줄 텍스트 입력
 };
 
 /**
@@ -55,6 +56,29 @@ export const FIELD_TYPES = {
  *     setEndDate(endDate);
  *   }}
  * />
+ * 
+ * @example
+ * // 전체 너비 텍스트 입력 필드
+ * <FormField 
+ *   type="input"
+ *   label="상세 설명"
+ *   value={description}
+ *   onChange={(e) => setDescription(e.target.value)}
+ *   placeholder="상세 설명을 입력하세요"
+ *   fullWidth
+ * />
+ * 
+ * @example
+ * // 텍스트 영역 필드
+ * <FormField 
+ *   type="textarea"
+ *   label="내용"
+ *   value={content}
+ *   onChange={(e) => setContent(e.target.value)}
+ *   placeholder="내용을 입력하세요"
+ *   rows={4}
+ *   fullWidth
+ * />
  */
 const FormField = ({ 
   type = FIELD_TYPES.INPUT,
@@ -67,6 +91,8 @@ const FormField = ({
   wrapperClassName = '',
   labelClassName = '',
   datePickerProps,
+  fullWidth = false,
+  rows = 3,
   ...props 
 }) => {
   // 날짜 범위 시작일 변경 핸들러 - 메모이제이션된 콜백 사용
@@ -103,6 +129,7 @@ const FormField = ({
    */
   const renderField = () => {
     const fieldWrapperClass = `flex-1 flex items-center h-14 p-2.5 inline-flex justify-start items-center ${wrapperClassName}`;
+    const textareaWrapperClass = `flex-1 flex items-start p-2.5 inline-flex justify-start ${wrapperClassName}`;
     
     switch (type) {
       case FIELD_TYPES.INPUT:
@@ -181,6 +208,21 @@ const FormField = ({
           </div>
         );
         
+      case FIELD_TYPES.TEXTAREA:
+        return (
+          <div className={textareaWrapperClass}>
+          <Input 
+          type='textarea'
+          placeholder="텍스트 박스 입니다..."
+          rows={5}
+          value={value || ''}
+          onChange={handleChange}
+          {...props}
+          className="w-full"
+        />
+        </div>
+        );
+        
       default:
         return null;
     }
@@ -188,8 +230,8 @@ const FormField = ({
 
   // 라벨과 입력 필드를 포함한 전체 컴포넌트 렌더링
   return (
-    <div className={`w-1/3 flex ${className}`}>
-      <div className={`w-[120px] flex-shrink-0 flex ${labelClassName}`}>
+    <div className={`${fullWidth ? 'w-full' : 'w-1/3'} flex ${className} ${type === FIELD_TYPES.TEXTAREA ? 'items-start' : 'items-center'} border-b border-gray-300`}>
+      <div className={`w-[120px] flex ${labelClassName} h-full`}>
         <Label labelType="box" className="h-full w-full flex-grow">{label}</Label>
       </div>
       {renderField()}
@@ -198,7 +240,7 @@ const FormField = ({
 };
 
 FormField.propTypes = {
-  /** 필드 타입 - 'input', 'select', 'date', 'dateRange' 중 하나 */
+  /** 필드 타입 - 'input', 'select', 'date', 'dateRange', 'textarea' 중 하나 */
   type: PropTypes.oneOf(Object.values(FIELD_TYPES)),
   
   /** 라벨 텍스트 - 필드 왼쪽에 표시되는 텍스트 */
@@ -233,7 +275,13 @@ FormField.propTypes = {
   labelClassName: PropTypes.string,
   
   /** DatePicker 컴포넌트에 전달할 추가 props */
-  datePickerProps: PropTypes.object
+  datePickerProps: PropTypes.object,
+  
+  /** 전체 너비 사용 여부 - true일 경우 1/3 대신 전체 너비 사용 */
+  fullWidth: PropTypes.bool,
+  
+  /** 텍스트 영역 줄 수 - type이 'textarea'일 때 사용됨 */
+  rows: PropTypes.number
 };
 
 export default FormField; 

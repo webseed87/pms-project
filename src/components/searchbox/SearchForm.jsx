@@ -1,70 +1,163 @@
-import React, { useState, memo, useCallback } from 'react';
+import React, { useState, memo, useCallback, useEffect } from 'react';
 import FormField, { FIELD_TYPES } from '../form/FormField';
 import DatePicker from '../ui/DatePicker/DatePicker';
 import Label from '../ui/Label';
 import Select from '../ui/Select/Select';
+import Input, { INPUT_TYPES } from '../ui/Input/Input';
 import './SearchForm.css'; // CSS 파일 import
 
-// 날짜 범위 선택 컴포넌트 - memo로 감싸서 불필요한 리렌더링 방지
-const DateRangeField = memo(({ startDate, endDate, onStartDateChange, onEndDateChange }) => {
-  return (
-    <div className="w-1/3 flex">
-      <div className="w-[120px] flex-shrink-0 flex">
-        <Label labelType="box" className="h-full w-full ">등록일자</Label>
-      </div>
-      <div className="flex-1 flex items-center h-14 p-2.5 border-b border-t border-gray-300 inline-flex justify-start items-center gap-2.5">
-        <DatePicker 
-          className="w-5/12" 
-          placeholderText="날짜 선택"
-          selected={startDate}
-          onChange={onStartDateChange}
-          popperClassName="date-picker-popper"
-          showTimeSelect={false}
-          popperPlacement="bottom-start"
-          usePortal={false}
-        />
-        <span className="mx-1 flex-shrink-0">~</span>
-        <DatePicker 
-          className="w-5/12" 
-          placeholderText="날짜 선택" 
-          selected={endDate}
-          onChange={onEndDateChange}
-          popperClassName="date-picker-popper"
-          showTimeSelect={false}
-          popperPlacement="bottom-start"
-          usePortal={false}
-        />
-      </div>
-    </div>
-  );
-});
+// 통합 필드 컴포넌트 - 모든 필드 타입을 처리
+const UnifiedField = memo(({ 
+  label, 
+  type = 'input', 
+  name, 
+  value, 
+  onChange,
+  options = [],
+  placeholder,
+  startDate, 
+  endDate, 
+  onStartDateChange, 
+  onEndDateChange,
+  className = '',
+  wrapperClassName = '',
+  index = 0,
+  totalFields = 1,
+  isMobile = false
+}) => {
+  const renderField = () => {
+    switch(type) {
+      case 'date-range':
+        return (
+          <div className="flex-1 flex items-center h-14 p-2.5 inline-flex justify-start items-center gap-2.5">
+            <DatePicker 
+              className="w-5/12" 
+              placeholderText="날짜 선택"
+              selected={startDate}
+              onChange={onStartDateChange}
+              popperClassName="date-picker-popper"
+              showTimeSelect={false}
+              popperPlacement="bottom-start"
+              usePortal={false}
+            />
+            <span className="mx-1 flex-shrink-0">~</span>
+            <DatePicker 
+              className="w-5/12" 
+              placeholderText="날짜 선택" 
+              selected={endDate}
+              onChange={onEndDateChange}
+              popperClassName="date-picker-popper"
+              showTimeSelect={false}
+              popperPlacement="bottom-start"
+              usePortal={false}
+            />
+          </div>
+        );
+      case 'select':
+        return (
+          <div className={`flex-1 flex items-center h-14 p-2.5 inline-flex justify-start items-center ${wrapperClassName}`}>
+            <Select
+              className="w-full"
+              options={options}
+              value={value}
+              name={name}
+              onChange={onChange}
+              placeholder={placeholder || `${label}을(를) 선택해주세요`}
+            />
+          </div>
+        );
+      case 'input':
+      default:
+        return (
+          <div className={`flex-1 flex items-center h-14 p-2.5 inline-flex justify-start items-center ${wrapperClassName}`}>
+            <Input
+              type={INPUT_TYPES.TEXT}
+              className="w-full"
+              placeholder={placeholder}
+              name={name}
+              value={value}
+              onChange={onChange}
+            />
+          </div>
+        );
+    }
+  };
 
-DateRangeField.displayName = 'DateRangeField';
+  // 인덱스 기반 스타일 적용 (모바일 여부에 따라 다른 로직 적용)
+  const getFieldStyle = () => {
+    // 행당 아이템 수: 모바일이면 2개, 데스크탑이면 3개
+    const itemsPerRow = isMobile ? 2 : 3;
+    
+    // 행에서의 위치 계산
+    const rowPosition = index % itemsPerRow;
+    const isLastRow = Math.floor(index / itemsPerRow) === Math.floor((totalFields - 1) / itemsPerRow);
+    const isLastInRow = rowPosition === (itemsPerRow - 1) || index === totalFields - 1;
+    
+    let borderStyle = 'border-gray-300 ';
+    
+    // 기본 테두리 (왼쪽, 오른쪽, 위, 아래)
+    // 첫 번째 열(rowPosition === 0)에만 왼쪽 테두리 추가
+    if (rowPosition === 0) {
+      borderStyle += 'border-l ';
+    }
+    
+    // 마지막 행이 아니면 아래 테두리 추가
+    if (!isLastRow) {
+      borderStyle += 'border-b ';
+    } else {
+      // 마지막 행이면 아래 테두리 항상 추가
+      borderStyle += 'border-b ';
+    }
+    
+    // 오른쪽 테두리 (행의 마지막 요소가 아닌 모든 요소)
+    if (!isLastInRow) {
+      borderStyle += 'border-r ';
+    } else {
+      // 행의 마지막 요소도 오른쪽 테두리 추가
+      borderStyle += 'border-r ';
+    }
+    
+    // 첫 번째 행이면 위 테두리 추가
+    if (index < itemsPerRow) {
+      borderStyle += 'border-t ';
+    }
+    
+    return borderStyle;
+  };
 
-// 셀렉트 필드 컴포넌트 - 간단하게 직접 Select 사용
-const SelectField = memo(({ label, name, value, options, onChange, placeholder, wrapperClassName }) => {
+  // 필드 너비 설정: 모바일이면 1/2, 아니면 1/3
+  const fieldWidth = isMobile ? 'w-1/2' : 'w-1/3';
+
   return (
-    <div className="w-1/3 flex">
+    <div className={`${fieldWidth} flex ${className} ${getFieldStyle()}`}>
       <div className="w-[120px] flex-shrink-0 flex">
         <Label labelType="box" className="h-full w-full flex-grow">{label}</Label>
       </div>
-      <div className={`flex-1 flex items-center h-14 p-2.5 inline-flex justify-start items-center ${wrapperClassName || 'border-b border-gray-300'}`}>
-        <Select
-          className="w-full"
-          options={options}
-          value={value}
-          name={name}
-          onChange={onChange}
-          placeholder={placeholder || `${label}을(를) 선택해주세요`}
-        />
-      </div>
+      {renderField()}
     </div>
   );
 });
 
-SelectField.displayName = 'SelectField';
+UnifiedField.displayName = 'UnifiedField';
 
 const SearchForm = () => {
+  // 화면 너비 상태
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // 모바일 화면 여부 (1280px 이하)
+  const isMobile = windowWidth <= 1280;
+
+  // 화면 크기 변경 감지
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   // 폼 상태 관리
   const [formState, setFormState] = useState({
     startDate: null,
@@ -156,77 +249,107 @@ const SearchForm = () => {
     {label: '사용자 관리', value: 'user_management'}
   ];
 
+  // 폼 필드 설정
+  const formFields = [
+    { 
+      type: "date-range", 
+      label: "등록일자",
+      props: {
+        startDate: formState.startDate,
+        endDate: formState.endDate,
+        onStartDateChange: handleStartDateChange,
+        onEndDateChange: handleEndDateChange
+      }
+    },
+    { 
+      type: "input", 
+      label: "과제명", 
+      props: {
+        placeholder: "과제명을 입력해주세요.",
+        name: "projectName",
+        value: formState.projectName,
+        onChange: handleInputChange
+      }
+    },
+    { 
+      type: "select", 
+      label: "과제상태", 
+      props: {
+        name: "projectStatus",
+        placeholder: "과제상태를 선택해주세요.",
+        value: formState.projectStatus,
+        onChange: handleSelectChange,
+        options: statusOptions
+      }
+    },
+    { 
+      type: "select", 
+      label: "시스템 명", 
+      props: {
+        name: "systemName",
+        placeholder: "시스템 명을 선택해주세요.",
+        value: formState.systemName,
+        onChange: handleSelectChange,
+        options: systemOptions
+      }
+    },
+    { 
+      type: "select", 
+      label: "업무명", 
+      props: {
+        name: "taskName",
+        placeholder: "업무명을 선택해주세요.",
+        value: formState.taskName,
+        onChange: handleSelectChange,
+        options: taskOptions
+      }
+    },
+    { 
+      type: "select", 
+      label: "메뉴 명", 
+      props: {
+        name: "menuName",
+        placeholder: "메뉴 명을 선택해주세요.",
+        value: formState.menuName,
+        onChange: handleSelectChange,
+        options: menuOptions
+      }
+    },
+    { 
+      type: "input", 
+      label: "접수NO", 
+      props: {
+        placeholder: "접수NO를 입력해주세요.",
+        name: "receiptNo",
+        value: formState.receiptNo,
+        onChange: handleInputChange
+      }
+    }
+  ];
+
+  // 반응형 클래스 설정
+  const formClasses = isMobile 
+    ? "flex flex-wrap" // 모바일 화면
+    : "flex flex-wrap"; // 데스크톱 화면 (동일하게 유지)
+
+ 
+
   return (
-    <div className="p-4 bg-white border border-gray-300 inline-flex justify-between items-center min-w-[900px]">
-      <form className="flex flex-wrap" onSubmit={handleSearch}>
-        <DateRangeField 
-          startDate={formState.startDate}
-          endDate={formState.endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-        />
-        
-        <FormField 
-          type="input"
-          label="과제명"
-          placeholder="과제명을 입력해주세요."
-          name="projectName"
-          value={formState.projectName}
-          onChange={handleInputChange}
-          wrapperClassName="border-b border-t border-gray-300"
-        />
-        
-        <SelectField
-          label="과제상태"
-          name="projectStatus"
-          placeholder="과제상태를 선택해주세요."
-          value={formState.projectStatus}
-          onChange={handleSelectChange}
-          options={statusOptions}
-          wrapperClassName="border-t border-b border-r border-gray-300"
-        />
-        
-        <SelectField
-          label="시스템 명"
-          name="systemName"
-          placeholder="시스템 명을 선택해주세요."
-          value={formState.systemName}
-          onChange={handleSelectChange}
-          options={systemOptions}
-
-        />
-        
-        <SelectField
-          label="업무명"
-          name="taskName"
-          placeholder="업무명을 선택해주세요."
-          value={formState.taskName}
-          onChange={handleSelectChange}
-          options={taskOptions}
-          wrapperClassName="border-b  border-gray-300"
-
-        />
-        
-        <SelectField
-          label="메뉴 명"
-          name="menuName"
-          placeholder="메뉴 명을 선택해주세요."
-          value={formState.menuName}
-          onChange={handleSelectChange}
-          options={menuOptions}
-          wrapperClassName="border-b border-r border-gray-300"
-
-        />
-
-        <FormField 
-          type="input"
-          label="접수NO"
-          placeholder="접수NO를 입력해주세요."
-          name="receiptNo"
-          value={formState.receiptNo}
-          onChange={handleInputChange}
-          wrapperClassName="border-b border-r border-gray-300"
-        />
+    <div 
+      className="p-4 bg-white border border-gray-300 inline-flex justify-between items-center w-full"
+    >
+      <form className={formClasses} onSubmit={handleSearch}>
+        {formFields.map((field, index) => (
+          <UnifiedField 
+            key={index}
+            type={field.type}
+            label={field.label}
+            index={index}
+            totalFields={formFields.length}
+            isMobile={isMobile}
+            {...field.props}
+          />
+        ))}
       </form>
     </div>
   );

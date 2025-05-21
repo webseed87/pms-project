@@ -1,0 +1,99 @@
+/* CustomPrimeTable 스타일 */
+/* DataTable 내부 테이블 layout 고정 */
+.p-datatable table {
+  table-layout: fixed;
+}
+
+/* 셀 내부 줄바꿈 방지 */
+.p-datatable td,
+.p-datatable th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 필요시 padding 조절 (선택사항) */
+.p-datatable td {
+  padding: 0.75rem;
+  height: 36px !important; /* 행 높이 고정 */
+  box-sizing: border-box;
+}
+
+/* 수평 스크롤 필요할 때만 표시 */
+.p-datatable-wrapper {
+  overflow-x: auto !important;
+  width: 100%;
+}
+
+/* 테이블 최소 너비 설정 - 항상 가로 스크롤이 생기도록 충분히 크게 설정 */
+.p-datatable .p-datatable-table {
+  width: 100%;
+  min-width: 1200px !important;
+}
+
+/* DataTable 컨테이너에 스크롤 적용 */
+.p-datatable.p-datatable-scrollable .p-datatable-wrapper {
+  overflow-x: auto !important;
+}
+
+/* 커스텀 스크롤바 공통 스타일 - 모든 스크롤 가능한 요소에 적용 */
+.p-datatable-wrapper::-webkit-scrollbar,
+div[style*="overflow: auto"]::-webkit-scrollbar,
+div[style*="overflow:auto"]::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.p-datatable-wrapper::-webkit-scrollbar-track,
+div[style*="overflow: auto"]::-webkit-scrollbar-track,
+div[style*="overflow:auto"]::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 3px;
+}
+
+.p-datatable-wrapper::-webkit-scrollbar-thumb,
+div[style*="overflow: auto"]::-webkit-scrollbar-thumb,
+div[style*="overflow:auto"]::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 3px;
+  border: 1px solid #f8fafc;
+}
+
+/* 테이블 헤더 고정 */
+.custom-data-table .p-datatable-thead > tr > th,
+.p-datatable-thead > tr > th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+  text-align: center;
+  padding: 0.75rem;
+  color: var(--gray-900, #101828);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* 테이블 행 높이 고정 */
+.custom-data-table .p-datatable-tbody > tr,
+.p-datatable .p-datatable-tbody > tr {
+  height: 36px !important;
+}
+
+/* 테이블 내용 행 스타일 */
+.p-datatable .p-datatable-tbody > tr > td {
+  border: 1px solid var(--gray-300, #D1D5DC) !important;
+  background: var(--white, #FFF);
+  color: var(--gray-700, #364153);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 0px 8px; /* 상하 패딩 조정 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  height: 36px !important; /* 높이 고정 */
+  box-sizing: border-box; /* 패딩을 포함한 총 높이 계산 */
+} 

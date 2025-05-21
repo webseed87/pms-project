@@ -56,7 +56,7 @@ const DatePicker = forwardRef(({
   name,
   selected,
   onChange,
-  placeholder = '날짜를 선택해주세요.',
+  placeholder = '날짜',
   // 날짜 형식
   dateFormat = 'yyyy-MM-dd',
   showTimeSelect = false,

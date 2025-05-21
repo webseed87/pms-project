@@ -53,11 +53,11 @@ const DeveloperSearchModal = ({ isOpen, onClose, onSelect }) => {
       <div className="space-y-6">
         {/* 검색 영역 */}
         <div className="flex ">
-          <div className="flex w-full items-center">
+          <div className="flex w-full items-center border border-gray-300">
             <Label labelType="box" className="w-24 h-12 flex items-center justify-center">
               개발자 명
             </Label>
-            <div className="self-stretch h-14 p-2.5 outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-start items-center gap-2.5">
+            <div className="self-stretch h-14 p-2.5 inline-flex justify-start items-center gap-2.5">
             <Input
               className="w-48 h-12 border-l-0"
               value={developerName}
@@ -66,11 +66,11 @@ const DeveloperSearchModal = ({ isOpen, onClose, onSelect }) => {
             </div>
           </div>
           
-          <div className="flex items-center w-full">
+          <div className="flex items-center w-full  border-t border-b  border-gray-300">
             <Label labelType="box" className="w-24 h-12 flex items-center justify-center">
               거래처 명
             </Label>
-            <div className="self-stretch h-14 p-2.5 outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-start items-center gap-2.5">
+            <div className="self-stretch h-14 p-2.5  inline-flex justify-start items-center gap-2.5">
 
             <Input
               className="w-48 h-12 border-l-0"
@@ -79,15 +79,16 @@ const DeveloperSearchModal = ({ isOpen, onClose, onSelect }) => {
             />
             </div>
           </div>
-          
+          <div className='w-40  border p-1  border-gray-300'>
           <Button 
             type="primary"
             size="medium"
             onClick={handleSearch}
-            className="w-40"
+            className='w-full h-12'
           >
             조회
           </Button>
+          </div>
         </div>
         
         {/* 테이블 영역 */}
