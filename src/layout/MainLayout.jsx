@@ -293,7 +293,7 @@ const MainLayout = ({ children }) => {
                 </Button>
             </div>
             {/* 콘텐츠 영역 - children으로 주입받음 */}
-            <div className="w-full min-w-0">
+            <div className="w-full min-w-0 flex flex-col">
               {children}
             </div>
           </div>

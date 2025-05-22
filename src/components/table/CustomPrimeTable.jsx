@@ -526,7 +526,7 @@ export default function CustomPrimeTable({
 
   // ===== 렌더링 =====
   return (
-    <div style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', ...style}}>
+    <div style={{width: '100%', height: '100%', display: 'flex',  flexDirection: 'column', position: 'relative', ...style}}>
       {/* ContextMenu 렌더링 */}
       {contextMenuEnabled && (
         <ContextMenu
@@ -542,7 +542,8 @@ export default function CustomPrimeTable({
         maxWidth: '100%',
         height: tableHeight, 
         overflow: 'auto', 
-        position: 'relative'
+        position: 'relative',
+     
       }}>
         <DataTable 
           value={loadMoreData.filter(item => !item.isBlurRow)} // 더보기 행은 제외하고 렌더링
@@ -641,7 +642,7 @@ export default function CustomPrimeTable({
           display: 'flex', 
           justifyContent: 'center', 
           padding: '12px 0', 
-          marginTop: '10px',
+          marginTop: '0px',
           backgroundColor: 'white',
        
         }}>

@@ -67,7 +67,7 @@ const FindUsernamePage = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="가입 시 등록한 이메일을 입력해주세요."
-              size={INPUT_SIZES.LARGE}
+              size={INPUT_SIZES.LARGEs}
               required
             />
           </div>

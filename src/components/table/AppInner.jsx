@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import CustomPrimeTable from './CustomPrimeTable';
 import { Dialog } from 'primereact/dialog';
 import Button, { BUTTON_TYPES } from '../ui/Button';
@@ -29,6 +29,17 @@ export default function AppInner() {
   const [dialogContent, setDialogContent] = useState(''); // 팝업 내용
   const [selectedRows, setSelectedRows] = useState([]); // 선택된 행 추적
   const [loadMoreItem, setLoadMoreItem] = useState(true); // 테이블 더보기 기능 상태
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  
+  // Listen for window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // ===== 설정 및 옵션 정의 =====
   // Select 필드 옵션 정의 (select 타입 필드에 사용)
@@ -274,8 +285,11 @@ export default function AppInner() {
 
       {/* 테이블 컴포넌트 */}
       <div className="self-stretch p-4 bg-white outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-between items-center" style={{
-          width: '100%',
-      
+          width: '100%', 
+          flex: '1', 
+          display: 'flex', 
+          overflow: 'hidden', 
+          paddingBottom: windowHeight <= 900 ? '60px' : '20px'
       }}>
 
         <CustomPrimeTable
@@ -290,7 +304,6 @@ export default function AppInner() {
             scrollbarColor: 'var(--scrollbar-thumb-color) var(--scrollbar-track-color)',
             
           }}
-          tableHeight='400px'
           data={sampleData}                               // 테이블 데이터
           columns={columns}                               // 컬럼 정의
           selectionEnabled={true}                         // 체크박스 선택 활성화
