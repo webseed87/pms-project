@@ -28,13 +28,18 @@ const MainLayout = ({ children }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // 화면 너비 상태
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // 화면 높이 상태 추가
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   // 모바일 화면 여부 (1280px 이하)
   const isMobile = windowWidth <= 1280;
+  // 작은 화면 여부 (높이 900px 이하)
+  const isSmallHeight = windowHeight <= 900;
 
   // 화면 크기 변경 감지
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
     };
 
     window.addEventListener('resize', handleResize);
@@ -207,8 +212,10 @@ const MainLayout = ({ children }) => {
               options={userOptions}
             />
             
-            {/* 메뉴 - 스크롤 속성 제거 */}
-            <div className="flex-grow">
+            {/* 메뉴 - 높이가 작을 때 스크롤 적용 */}
+            <div className={`flex-grow ${isSmallHeight ? 'overflow-auto' : ''}`} style={{ 
+              maxHeight: isSmallHeight ? 'calc(100vh - 250px)' : 'none' 
+            }}>
               <Menu 
                 items={menuItems}
                 onMenuItemClick={handleMenuClick}
@@ -232,7 +239,7 @@ const MainLayout = ({ children }) => {
         {isMobile && renderHamburgerButton()}
       </TopBar>
       
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-auto">
         {/* 데스크탑 메뉴 (모바일에서는 숨김) */}
         {!isMobile && (
           <div className="w-72 outline outline-1 outline-gray-300 h-full">
@@ -242,14 +249,14 @@ const MainLayout = ({ children }) => {
                 teamName="프로젝트 1팀" 
                 options={userOptions}
               />
-                <SideBottom/>
-              <div className="flex-grow h-full">
+              <SideBottom/>
+              {/* 메뉴 컨테이너에 조건부 스크롤 적용 */}
+              <div className={`flex-grow ${isSmallHeight ? 'overflow-auto' : 'overflow-hidden'}`} style={{ maxHeight: isSmallHeight ? 'calc(100% - 180px)' : 'none' }}>
                 <Menu 
                   items={menuItems}
                   onMenuItemClick={handleMenuClick}
                 />
               </div>
-            
             </div>
           </div>
         )}

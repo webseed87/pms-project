@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import DatePicker, { DATEPICKER_SIZES } from './DatePicker';
+import DatePicker, { DATEPICKER_SIZES, DATEPICKER_MODES } from './DatePicker';
 
 const DatePickerExample = () => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedDateWithTime, setSelectedDateWithTime] = useState(null);
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
   
   // 테스트용 추가 상태들
   const [dateSmall, setDateSmall] = useState(null);
@@ -19,10 +19,10 @@ const DatePickerExample = () => {
     setSelectedDate(date);
   };
 
-  // 시간 포함 날짜 선택 핸들러
-  const handleDateTimeChange = (date) => {
-    console.log('Selected date with time:', date);
-    setSelectedDateWithTime(date);
+  // 날짜 범위 선택 핸들러
+  const handleDateRangeChange = (range) => {
+    console.log('Selected date range:', range);
+    setDateRange(range);
   };
 
   return (
@@ -45,17 +45,18 @@ const DatePickerExample = () => {
           </div>
           
           <div className="space-y-2">
-            <h3 className="font-semibold text-gray-700">시간 포함 날짜 선택</h3>
+            <h3 className="font-semibold text-gray-700">기간 날짜 선택</h3>
             <DatePicker 
-              selected={selectedDateWithTime}
-              onChange={handleDateTimeChange}
-              showTimeSelect={true}
-              dateFormat="yyyy-MM-dd HH:mm"
-              placeholder="날짜와 시간을 선택해주세요."
+              mode={DATEPICKER_MODES.RANGE}
+              startDate={dateRange.startDate}
+              endDate={dateRange.endDate}
+              onChange={handleDateRangeChange}
+              placeholder="날짜 범위를 선택해주세요."
             />
-            {selectedDateWithTime && (
+            {(dateRange.startDate || dateRange.endDate) && (
               <p className="text-sm text-gray-600 mt-2">
-                선택된 날짜와 시간: {selectedDateWithTime.toLocaleString()}
+                선택된 기간: {dateRange.startDate ? dateRange.startDate.toLocaleDateString() : ''}
+                {dateRange.endDate ? ` ~ ${dateRange.endDate.toLocaleDateString()}` : dateRange.startDate ? ' ~' : ''}
               </p>
             )}
           </div>

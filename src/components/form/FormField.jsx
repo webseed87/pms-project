@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../ui/Input';
 import Select from '../ui/Select';
-import DatePicker from '../ui/DatePicker';
+import DatePicker, { DATEPICKER_MODES } from '../ui/DatePicker/DatePicker';
 import Label from '../ui/Label';
 
 /**
@@ -13,7 +13,8 @@ export const FIELD_TYPES = {
   INPUT: 'input',           // 일반 텍스트 입력
   SELECT: 'select',         // 선택 상자
   DATE: 'date',             // 단일 날짜 선택
-  DATE_RANGE: 'dateRange',  // 날짜 범위 선택
+  DATE_RANGE: 'dateRange',  // 날짜 범위 선택 (두 개의 DatePicker 사용)
+  RANGE_PICKER: 'rangePicker', // 날짜 범위 선택 (단일 DatePicker 사용)
   TEXTAREA: 'textarea'      // 여러 줄 텍스트 입력
 };
 
@@ -46,7 +47,7 @@ export const FIELD_TYPES = {
  * />
  * 
  * @example
- * // 날짜 범위 선택
+ * // 날짜 범위 선택 (두 개의 DatePicker 사용)
  * <FormField 
  *   type="dateRange"
  *   label="등록일자"
@@ -55,6 +56,19 @@ export const FIELD_TYPES = {
  *     setStartDate(startDate);
  *     setEndDate(endDate);
  *   }}
+ * />
+ * 
+ * @example
+ * // 날짜 범위 선택 (단일 DatePicker 사용)
+ * <FormField 
+ *   type="rangePicker"
+ *   label="기간 선택"
+ *   value={{ startDate, endDate }}
+ *   onChange={({ startDate, endDate }) => {
+ *     setStartDate(startDate);
+ *     setEndDate(endDate);
+ *   }}
+ *   placeholder="기간을 선택하세요"
  * />
  * 
  * @example
@@ -92,6 +106,7 @@ const FormField = ({
   labelClassName = '',
   datePickerProps,
   fullWidth = false,
+  medium = false,
   rows = 3,
   ...props 
 }) => {
@@ -114,6 +129,13 @@ const FormField = ({
       });
     }
   }, [onChange, value]);
+
+  // 범위 선택기 변경 핸들러
+  const handleRangePickerChange = useCallback((dateRange) => {
+    if (onChange) {
+      onChange(dateRange);
+    }
+  }, [onChange]);
 
   // 기본 onChange 핸들러 - 값이 없을 경우 빈 함수 제공
   const handleChange = useCallback((e) => {
@@ -208,6 +230,26 @@ const FormField = ({
           </div>
         );
         
+      case FIELD_TYPES.RANGE_PICKER:
+        return (
+          <div className={fieldWrapperClass}>
+            <DatePicker 
+              className="w-full" 
+              mode={DATEPICKER_MODES.RANGE}
+              placeholder={placeholder || "날짜 범위 선택"}
+              startDate={value?.startDate || null}
+              endDate={value?.endDate || null}
+              onChange={handleRangePickerChange}
+              popperProps={{
+                positionFixed: true,
+                modifiers: [{ name: 'preventOverflow', options: { enabled: true } }]
+              }}
+              {...datePickerProps}
+              {...props}
+            />
+          </div>
+        );
+        
       case FIELD_TYPES.TEXTAREA:
         return (
           <div className={textareaWrapperClass}>
@@ -230,7 +272,7 @@ const FormField = ({
 
   // 라벨과 입력 필드를 포함한 전체 컴포넌트 렌더링
   return (
-    <div className={`${fullWidth ? 'w-full' : 'w-1/3'} flex ${className} ${type === FIELD_TYPES.TEXTAREA ? 'items-start' : 'items-center'} border-b border-gray-300`}>
+    <div className={`${fullWidth ? 'w-full' : medium ? 'w-2/3' : 'w-1/3'} flex ${className} ${type === FIELD_TYPES.TEXTAREA ? 'items-start' : 'items-center'} border-b border-gray-300`}>
       <div className={`w-[120px] flex ${labelClassName} h-full`}>
         <Label labelType="box" className="h-full w-full flex-grow">{label}</Label>
       </div>
@@ -240,7 +282,7 @@ const FormField = ({
 };
 
 FormField.propTypes = {
-  /** 필드 타입 - 'input', 'select', 'date', 'dateRange', 'textarea' 중 하나 */
+  /** 필드 타입 - 'input', 'select', 'date', 'dateRange', 'rangePicker', 'textarea' 중 하나 */
   type: PropTypes.oneOf(Object.values(FIELD_TYPES)),
   
   /** 라벨 텍스트 - 필드 왼쪽에 표시되는 텍스트 */
@@ -279,6 +321,9 @@ FormField.propTypes = {
   
   /** 전체 너비 사용 여부 - true일 경우 1/3 대신 전체 너비 사용 */
   fullWidth: PropTypes.bool,
+  
+  /** 중간 너비 사용 여부 - true일 경우 1/3 대신 2/3 너비 사용 */
+  medium: PropTypes.bool,
   
   /** 텍스트 영역 줄 수 - type이 'textarea'일 때 사용됨 */
   rows: PropTypes.number

@@ -214,6 +214,7 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
               selected={testInfo.startDate ? new Date(testInfo.startDate) : null}
               onChange={(date) => handleDateChange(date, 'startDate')}
               dateFormat="yyyy-MM-dd"
+              medium
             />
             
             {/* 종료일자 */}
