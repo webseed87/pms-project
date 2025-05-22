@@ -66,10 +66,30 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
 
   // 날짜 변경 핸들러
   const handleDateChange = (date, name) => {
-    setTestInfo(prev => ({
-      ...prev,
-      [name]: date ? date.toISOString().split('T')[0] : ''
-    }));
+    // DATE_RANGE 타입은 { startDate, endDate } 객체를 반환
+    if (date && typeof date === 'object' && 'startDate' in date) {
+      // 날짜 범위 객체인 경우
+      const { startDate, endDate } = date;
+      
+      if (name === 'startDate' && startDate) {
+        setTestInfo(prev => ({
+          ...prev,
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate ? endDate.toISOString().split('T')[0] : prev.endDate
+        }));
+      } else if (name === 'endDate' && endDate) {
+        setTestInfo(prev => ({
+          ...prev,
+          endDate: endDate.toISOString().split('T')[0]
+        }));
+      }
+    } else {
+      // 단일 날짜 객체인 경우
+      setTestInfo(prev => ({
+        ...prev,
+        [name]: date ? date.toISOString().split('T')[0] : ''
+      }));
+    }
   };
 
   // 저장 핸들러
@@ -195,6 +215,7 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
               disabled
               value={testInfo.department}
               onChange={handleInputChange}
+              className='border-l border-r border-gray-300'
             />
             
             {/* 세부 업무명 */}
@@ -208,13 +229,14 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
             
             {/* 시작일자 */}
             <FormField
-              type={FIELD_TYPES.DATE}
-              label="시작일자"
+              type={FIELD_TYPES.DATE_RANGE}
+              label="계획일자"
               name="startDate"
               selected={testInfo.startDate ? new Date(testInfo.startDate) : null}
               onChange={(date) => handleDateChange(date, 'startDate')}
               dateFormat="yyyy-MM-dd"
               medium
+              className='border-r border-gray-300'
             />
             
             {/* 종료일자 */}
@@ -235,6 +257,7 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
               value={testInfo.testStatus}
               onChange={handleInputChange}
               options={statusOptions}
+              className='border-r border-gray-300'
             />
             
             {/* 테스트담당자 */}
@@ -245,6 +268,7 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
               value={testInfo.tester}
               onChange={handleInputChange}
               placeholder="오늘날짜 자동세팅"
+               className='border-r border-gray-300'
             />
             
             {/* 테스트 종료일자 */}
@@ -265,6 +289,7 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
               value={testInfo.developer}
               onChange={handleInputChange}
               options={developerOptions}
+               className='border-r border-gray-300'
             />
             
             {/* 테스트유형 */}
@@ -275,6 +300,7 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
               value={testInfo.testTypeOption}
               onChange={handleInputChange}
               options={testTypeOptions}
+               className='border-r border-gray-300'
             />
             
             {/* 테스트서버 */}
@@ -290,11 +316,12 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
             {/* 테스트 요일일 */}
             <FormField
               type={FIELD_TYPES.DATE}
-              label="테스트 요일일"
+              label="테스트 요일"
               name="testDate"
               selected={testInfo.testDate ? new Date(testInfo.testDate) : null}
               onChange={(date) => handleDateChange(date, 'testDate')}
               dateFormat="yyyy-MM-dd"
+              fullWidth
             />
         
 

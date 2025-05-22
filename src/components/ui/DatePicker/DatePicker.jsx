@@ -38,15 +38,7 @@ export const DATEPICKER_MODES = {
  *   placeholder="날짜를 선택해주세요"
  * />
  * 
- * @example
- * // 시간 선택 포함
- * <DatePicker
- *   selected={selectedDateTime}
- *   onChange={setSelectedDateTime}
- *   showTimeSelect={true}
- *   dateFormat="yyyy-MM-dd HH:mm"
- *   placeholder="날짜와 시간을 선택해주세요"
- * />
+
  * 
  * @example
  * // 다양한 속성 사용 예시
@@ -81,8 +73,6 @@ const DatePicker = forwardRef(({
   placeholder = '날짜',
   // 날짜 형식
   dateFormat = 'yyyy-MM-dd',
-  showTimeSelect = false,
-  timeFormat = 'HH:mm',
   // 상태 속성
   disabled = false,
   error = false,
@@ -100,10 +90,22 @@ const DatePicker = forwardRef(({
   const datePickerWrapperRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   
+  // 시간 제거 헬퍼 함수 - 날짜만 사용하도록 시간을 00:00:00으로 설정
+  const removeTimeFromDate = (date) => {
+    if (!date) return null;
+    const newDate = new Date(date);
+    newDate.setHours(0, 0, 0, 0);
+    return newDate;
+  };
+  
+  // 초기 시작일/종료일에서 시간 제거
+  const initialStartDate = startDate ? removeTimeFromDate(startDate) : null;
+  const initialEndDate = endDate ? removeTimeFromDate(endDate) : null;
+  
   // 범위 선택 내부 상태 (mode가 RANGE일 때 사용)
   const [dateRange, setDateRange] = useState({
-    startDate: startDate,
-    endDate: endDate
+    startDate: initialStartDate,
+    endDate: initialEndDate
   });
   
   // 반응형 처리를 위한 화면 너비 상태
@@ -124,8 +126,8 @@ const DatePicker = forwardRef(({
   useEffect(() => {
     if (mode === DATEPICKER_MODES.RANGE) {
       setDateRange({
-        startDate: startDate,
-        endDate: endDate
+        startDate: startDate ? removeTimeFromDate(startDate) : null,
+        endDate: endDate ? removeTimeFromDate(endDate) : null
       });
     }
   }, [startDate, endDate, mode]);
@@ -146,7 +148,9 @@ const DatePicker = forwardRef(({
   // 날짜 변경 핸들러
   const handleDateChange = (date) => {
     if (onChange) {
-      onChange(date);
+      onChange(removeTimeFromDate(date));
+      // 날짜 선택 후 달력 닫기
+      setIsOpen(false);
     }
   };
 
@@ -155,11 +159,11 @@ const DatePicker = forwardRef(({
     // 시작일이 종료일보다 나중이면 종료일도 같이 업데이트
     let newEndDate = dateRange.endDate;
     if (date && dateRange.endDate && date > dateRange.endDate) {
-      newEndDate = date;
+      newEndDate = removeTimeFromDate(date);
     }
     
     const newDateRange = { 
-      startDate: date, 
+      startDate: removeTimeFromDate(date), 
       endDate: newEndDate 
     };
     
@@ -175,12 +179,12 @@ const DatePicker = forwardRef(({
     // 종료일이 시작일보다 이전이면 시작일도 같이 업데이트
     let newStartDate = dateRange.startDate;
     if (date && dateRange.startDate && date < dateRange.startDate) {
-      newStartDate = date;
+      newStartDate = removeTimeFromDate(date);
     }
     
     const newDateRange = { 
       startDate: newStartDate, 
-      endDate: date 
+      endDate: removeTimeFromDate(date) 
     };
     
     setDateRange(newDateRange);
@@ -234,11 +238,7 @@ const DatePicker = forwardRef(({
         selected.toLocaleDateString('ko-KR', { 
           year: 'numeric', 
           month: '2-digit', 
-          day: '2-digit',
-          ...(showTimeSelect && { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          })
+          day: '2-digit'
         }).replace(/\. /g, '-').replace(/\.$/, '') : 
         placeholder;
     }
@@ -312,9 +312,7 @@ const DatePicker = forwardRef(({
       name={name}
       selected={selected}
       onChange={handleDateChange}
-      dateFormat={showTimeSelect ? `${dateFormat} ${timeFormat}` : dateFormat}
-      showTimeSelect={showTimeSelect}
-      timeFormat={timeFormat}
+      dateFormat={dateFormat}
       disabled={disabled}
       locale={ko}
       popperClassName="datepicker-popper"
@@ -341,8 +339,8 @@ const DatePicker = forwardRef(({
       <CustomInput value="" />
       
       {isOpen && (
-        <div className="absolute top-full border border-gray-200 left-0 mt-2 z-[9999]  p-4 bg-white rounded-lg shadow-md dual-calendar-container">
-          <div className="flex flex-wrap gap-4">
+        <div className="absolute top-full border border-gray-200 left-0 mt-2 z-[9999] p-4 bg-white rounded-lg dual-calendar-container">
+          <div className="flex flex-wrap md:flex-nowrap gap-4 lg:flex-nowrap">
             {/* 왼쪽 달력 - 시작일 선택 */}
             <div className="dual-calendar-left ">
               <div className="text-center text-sm font-medium p-2 ">
@@ -450,10 +448,6 @@ DatePicker.propTypes = {
   // 날짜 형식
   /** 날짜 표시 형식 (예: 'yyyy-MM-dd') */
   dateFormat: PropTypes.string,
-  /** 시간 선택 활성화 여부 */
-  showTimeSelect: PropTypes.bool,
-  /** 시간 표시 형식 (예: 'HH:mm') */
-  timeFormat: PropTypes.string,
   
   // 상태 속성
   /** 비활성화 여부 */

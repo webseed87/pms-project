@@ -111,6 +111,7 @@ const FormField = ({
   ...props 
 }) => {
   // 날짜 범위 시작일 변경 핸들러 - 메모이제이션된 콜백 사용
+  // 수정됨: 이 핸들러는 더 이상 직접 사용되지 않음 (handleRangePickerChange로 통합)
   const handleStartDateChange = useCallback((date) => {
     if (onChange) {
       onChange({ 
@@ -121,6 +122,7 @@ const FormField = ({
   }, [onChange, value]);
 
   // 날짜 범위 종료일 변경 핸들러 - 메모이제이션된 콜백 사용
+  // 수정됨: 이 핸들러는 더 이상 직접 사용되지 않음 (handleRangePickerChange로 통합)
   const handleEndDateChange = useCallback((date) => {
     if (onChange) {
       onChange({ 
@@ -133,6 +135,7 @@ const FormField = ({
   // 범위 선택기 변경 핸들러
   const handleRangePickerChange = useCallback((dateRange) => {
     if (onChange) {
+      // dateRange는 {startDate, endDate} 형태로 넘어옴
       onChange(dateRange);
     }
   }, [onChange]);
@@ -203,27 +206,16 @@ const FormField = ({
         return (
           <div className={fieldWrapperClass}>
             <DatePicker 
-              className="w-5/12" 
-              placeholderText="날짜 선택"
-              selected={value?.startDate || null}
-              onChange={handleStartDateChange}
+              className="w-full" 
+              placeholder="날짜 범위를 선택해주세요."
+              startDate={value?.startDate || null}
+              endDate={value?.endDate || null}
+              onChange={handleRangePickerChange}
               popperProps={{
                 positionFixed: true,
                 modifiers: [{ name: 'preventOverflow', options: { enabled: true } }]
               }}
-              {...datePickerProps}
-              {...props}
-            />
-            <span className="mx-1 flex-shrink-0">~</span>
-            <DatePicker 
-              className="w-5/12" 
-              placeholderText="날짜 선택" 
-              selected={value?.endDate || null}
-              onChange={handleEndDateChange}
-              popperProps={{
-                positionFixed: true,
-                modifiers: [{ name: 'preventOverflow', options: { enabled: true } }]
-              }}
+              mode={DATEPICKER_MODES.RANGE}
               {...datePickerProps}
               {...props}
             />

@@ -1,6 +1,6 @@
 import React, { useState, memo, useCallback, useEffect } from 'react';
 import FormField, { FIELD_TYPES } from '../form/FormField';
-import DatePicker from '../ui/DatePicker/DatePicker';
+import DatePicker, { DATEPICKER_MODES } from '../ui/DatePicker/DatePicker';
 import Label from '../ui/Label';
 import Select from '../ui/Select/Select';
 import Input, { INPUT_TYPES } from '../ui/Input/Input';
@@ -39,18 +39,9 @@ const UnifiedField = memo(({
               showTimeSelect={false}
               popperPlacement="bottom-start"
               usePortal={false}
+              mode={DATEPICKER_MODES.RANGE}
             />
-            <span className="mx-1 flex-shrink-0">~</span>
-            <DatePicker 
-              className="w-5/12" 
-              placeholderText="날짜 선택" 
-              selected={endDate}
-              onChange={onEndDateChange}
-              popperClassName="date-picker-popper"
-              showTimeSelect={false}
-              popperPlacement="bottom-start"
-              usePortal={false}
-            />
+            
           </div>
         );
       case 'select':
