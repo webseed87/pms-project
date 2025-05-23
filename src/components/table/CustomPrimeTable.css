@@ -107,3 +107,7 @@ div[style*="overflow:auto"]::-webkit-scrollbar-thumb {
   text-align: center !important;
   justify-content: center !important;
 }
+
+.p-button.p-button-text{
+  color: var(--gray-700, #364153) !important;
+}
