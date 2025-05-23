@@ -271,7 +271,7 @@ const MainLayout = ({ children }) => {
             </div>
           </div>
           <div className='flex flex-col p-5 h-full border-l border-gray-300 gap-4 overflow-auto'>
-            <div className='flex justify-end items-center gap-2'>
+            <div className='flex justify-end items-center '>
             <Tab 
               tabs={outlineTabs}
               defaultActiveTab={0}
@@ -279,6 +279,7 @@ const MainLayout = ({ children }) => {
               iconPosition={ICON_POSITIONS.RIGHT}
               showContent={false}
             />
+            <div className='flex justify-end items-center gap-1'>
             <Button 
                   buttonType={BUTTON_TYPES.LINE}
                   size={BUTTON_SIZES.MEDIUM}
@@ -298,6 +299,7 @@ const MainLayout = ({ children }) => {
                   icon={<XMarkIcon className="w-5 h-5" />}
                 >
                 </Button>
+                </div>
             </div>
             {/* 콘텐츠 영역 - children으로 주입받음 */}
             <div className="w-full min-w-0 flex flex-col">

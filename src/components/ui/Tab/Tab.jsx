@@ -79,7 +79,7 @@ const Tab = ({
   const headerClasses = `flex ${position === TAB_POSITIONS.TOP ? 'flex-row' : 'flex-col'} ${
     design === TAB_DESIGNS.DEFAULT ? 
     (position === TAB_POSITIONS.TOP ? 'border-b' : 'border-r') + ' border-gray-300' : 
-    'gap-2'
+    'gap-1'
   } bg-white flex-wrap ${position === TAB_POSITIONS.LEFT ? 'min-w-[180px]' : ''}`;
   
   // 탭 콘텐츠 클래스

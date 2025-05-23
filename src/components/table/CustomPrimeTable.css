@@ -61,12 +61,12 @@ div[style*="overflow:auto"]::-webkit-scrollbar-thumb {
 
 /* 테이블 헤더 고정 */
 .custom-data-table .p-datatable-thead > tr > th,
-.p-datatable-thead > tr > th {
+.p-datatable-thead > tr > th,
+.p-datatable .p-datatable-thead > tr > th {
   position: sticky;
   top: 0;
   z-index: 1;
   background-color: #fff;
-  text-align: center;
   padding: 0.75rem;
   color: var(--gray-900, #101828);
   font-family: Pretendard;
@@ -74,6 +74,8 @@ div[style*="overflow:auto"]::-webkit-scrollbar-thumb {
   font-style: normal;
   font-weight: 400;
   line-height: 1.2;
+  text-align: center !important; /* 텍스트 가운데 정렬 강제 적용 */
+
 }
 
 /* 테이블 행 높이 고정 */
@@ -97,3 +99,11 @@ div[style*="overflow:auto"]::-webkit-scrollbar-thumb {
   height: 36px !important; /* 높이 고정 */
   box-sizing: border-box; /* 패딩을 포함한 총 높이 계산 */
 } 
+.p-datatable .p-column-resizer{
+  width: 0px !important;
+  border: none !important;
+}
+.p-column-header-content{
+  text-align: center !important;
+  justify-content: center !important;
+}

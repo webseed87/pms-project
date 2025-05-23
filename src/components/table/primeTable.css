@@ -113,13 +113,6 @@ div[style*="overflow:auto"] {
 
 }
 
-/* 정렬 가능한 컬럼 헤더 텍스트 정렬 */
-.p-datatable .p-column-header-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 
 
 
@@ -128,6 +121,7 @@ div[style*="overflow:auto"] {
 .p-datatable.p-datatable-scrollable .p-datatable-scrollable-header-table .p-datatable-thead > tr > th,
 .p-datatable.p-datatable-scrollable .p-datatable-scrollable-body-table .p-datatable-tbody > tr > td {
   border: 1px solid #D1D5DC !important;
+  text-align: center;
 }
 
 /* 테이블 내용 행 스타일 */
