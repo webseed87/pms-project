@@ -142,10 +142,10 @@ const Select = forwardRef(({
         `}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
-        <div className={`${disabled ? 'text-gray-500' : selectedOption ? 'text-gray-700' : 'text-gray-500'} font-normal font-pretendard leading-tight`}>
+        <div className={`truncate flex-1 ${disabled ? 'text-gray-500' : selectedOption ? 'text-gray-700' : 'text-gray-500'} font-normal font-pretendard leading-tight`}>
           {getSelectedLabel()}
         </div>
-        <ChevronDownIcon className={`h-4 w-4 ${disabled ? 'text-gray-400' : 'text-gray-500'} transition-transform ${isOpen ? 'transform rotate-180' : ''}`} />
+        <ChevronDownIcon className={`h-4 w-4 flex-shrink-0 ml-2 ${disabled ? 'text-gray-400' : 'text-gray-500'} transition-transform ${isOpen ? 'transform rotate-180' : ''}`} />
       </div>
 
       {/* 드롭다운 메뉴 */}
@@ -175,12 +175,12 @@ const Select = forwardRef(({
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
-                <div className={`justify-start ${isSelected || isHovered ? 'text-gray-950' : 'text-gray-600'} text-base font-medium font-['Pretendard'] leading-normal`}>
+                <div className={`truncate flex-1 ${isSelected || isHovered ? 'text-gray-950' : 'text-gray-600'} text-base font-medium font-['Pretendard'] leading-normal`}>
                   {option.label}
                 </div>
                 {/* 선택 상태일 때는 진한 체크 아이콘, 호버 상태일 때는 옅은 체크 아이콘 표시 */}
                 {(isSelected || isHovered) && (
-                  <div className="w-5 h-5 relative overflow-hidden flex items-center justify-center">
+                  <div className="w-5 h-5 flex-shrink-0 ml-2 relative overflow-hidden flex items-center justify-center">
                     {isSelected ? (
                       <CheckIcon className="h-4 w-4 text-slate-700" />
                     ) : (
