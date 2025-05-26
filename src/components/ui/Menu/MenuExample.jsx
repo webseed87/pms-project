@@ -113,6 +113,7 @@ const MenuExample = () => {
         <div className="col-span-1">
           <Menu 
             items={menuItems}
+            title="메뉴 예제"
             onMenuItemClick={handleMenuItemClick}
             isCollapsible={false}
           />

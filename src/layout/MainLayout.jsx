@@ -218,7 +218,10 @@ const MainLayout = ({ children }) => {
             }}>
               <Menu 
                 items={menuItems}
+                title="메뉴"
                 onMenuItemClick={handleMenuClick}
+                isCollapsible={true}
+                defaultCollapsed={false}
               />
             </div>
           </div>
@@ -254,7 +257,10 @@ const MainLayout = ({ children }) => {
               <div className={`flex-grow ${isSmallHeight ? 'overflow-auto' : 'overflow-hidden'}`} style={{ maxHeight: isSmallHeight ? 'calc(100% - 180px)' : 'none' }}>
                 <Menu 
                   items={menuItems}
+                  title="메뉴"
                   onMenuItemClick={handleMenuClick}
+                  isCollapsible={true}
+                  defaultCollapsed={false}
                 />
               </div>
             </div>

@@ -260,10 +260,10 @@ const TestDetailInfoModal = ({ isOpen, onClose, onSave }) => {
               className='border-r border-gray-300'
             />
             
-            {/* 테스트담당자 */}
+            {/* 테스트시작일*/}
             <FormField
               type={FIELD_TYPES.INPUT}
-              label="테스트담당자"
+              label="테스트시작일"
               name="tester"
               value={testInfo.tester}
               onChange={handleInputChange}

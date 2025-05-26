@@ -101,7 +101,7 @@ const Input = forwardRef(({
   const [showPassword, setShowPassword] = useState(false);
   
   // 기본 입력 필드 스타일
-  const baseClasses = 'w-full transition-colors duration-200 ease-in-out font-normal font-pretendard text-sm leading-tight';
+  const baseClasses = 'w-full transition-colors duration-200 ease-in-out font-normal item-center font-pretendard text-sm leading-tight';
   
   // 크기별 스타일
   const sizeClasses = {
@@ -227,7 +227,7 @@ const Input = forwardRef(({
   
   // 기본 입력 필드 (텍스트, 비밀번호, 날짜 등)
   // 컨테이너 스타일을 변경하고 input 요소에는 테두리 스타일을 제거합니다
-  const containerClasses = `w-full relative ${disabled ? stateClasses.disabled : error ? stateClasses.error : stateClasses.default} ${sizeClasses[size]}`;
+  const containerClasses = `w-full relative flex items-center ${disabled ? stateClasses.disabled : error ? stateClasses.error : stateClasses.default} ${sizeClasses[size]}`;
   
   // 입력 필드에는 최소한의 스타일만 적용합니다
   const fieldClasses = `w-full h-full bg-transparent border-none outline-none px-0 py-0 font-normal font-pretendard text-sm leading-tight placeholder:text-gray-500

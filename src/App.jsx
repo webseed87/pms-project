@@ -11,14 +11,10 @@ import RegisterPage from './pages/RegisterPage';
 import FindPasswordPage from './pages/FindPasswordPage';
 import FindUsernamePage from './pages/FindUsernamePage';
 import AttachmentExample from './pages/AttachmentExample';
-import { ButtonExample } from './components/ui/Button';
-import InputExample from './components/ui/Input/InputExample';
-import SelectExample from './components/ui/Select/SelectExample';
-import DatePickerExample from './components/ui/DatePicker/DatePickerExample';
-import { MenuExample } from './components/ui/Menu';
-import { CheckboxExample } from './components/ui/Checkbox';
-import { LabelExample } from './components/ui/Label';
-import UserBox from './components/userbox';
+
+import NotFoundPage from './pages/NotFoundPage';
+import UnauthorizedPage from './pages/UnauthorizedPage';
+import MaintenancePage from './pages/MaintenancePage';
 
 // 좌측 메뉴 컴포넌트
 const LeftMenu = ({ isCollapsed, onToggle }) => {
@@ -151,6 +147,42 @@ const LeftMenu = ({ isCollapsed, onToggle }) => {
               {!isCollapsed && "아이디 찾기"}
             </Link>
           </li>
+
+          <li className="border-t border-gray-200 pt-2 mt-2">
+            <h3 className={`px-4 py-2 text-xs font-semibold text-gray-500 uppercase ${isCollapsed ? 'hidden' : ''}`}>
+              {!isCollapsed && "기타 페이지"}
+            </h3>
+          </li>
+          <li>
+            <Link
+              to="/notfound" // 404 페이지 경로 실제로는 없는 경로일때로 연결하세요
+              className={`w-full text-left px-4 py-3 block ${
+                isActive('/notfound') ? 'bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-600' : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {!isCollapsed && "404 페이지"}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/maintenance" // 404 페이지 경로 실제로는 없는 경로일때로 연결하세요
+              className={`w-full text-left px-4 py-3 block ${
+                isActive('/maintenance') ? 'bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-600' : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {!isCollapsed && "점검중 페이지"}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/unauthorized" // 404 페이지 경로 실제로는 없는 경로일때로 연결하세요
+              className={`w-full text-left px-4 py-3 block ${
+                isActive('/unauthorized') ? 'bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-600' : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {!isCollapsed && "비인증 페이지"}
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>
@@ -166,7 +198,7 @@ const AppLayout = ({ children, isMenuCollapsed, onToggleMenu }) => {
       
       {/* 우측 콘텐츠 영역 */}
       <div className="flex-1 overflow-hidden p-6">
-        <div className="bg-white rounded-lg shadow-xl p-6 h-full overflow-hidden">
+        <div className="bg-white rounded-lg shadow-xl p-6 h-full overflow-y-auto">
           {children}
         </div>
       </div>
@@ -272,6 +304,46 @@ function App() {
           element={
             <AppLayout isMenuCollapsed={isMenuCollapsed} onToggleMenu={toggleMenu}>
               <FindUsernamePage />
+            </AppLayout>
+          } 
+        />
+        <Route 
+          path="/unauthorized" 
+          element={
+            <AppLayout isMenuCollapsed={isMenuCollapsed} onToggleMenu={toggleMenu}>
+              <UnauthorizedPage />
+            </AppLayout>
+          } 
+        />
+        <Route 
+          path="/maintenance" 
+          element={
+            <AppLayout isMenuCollapsed={isMenuCollapsed} onToggleMenu={toggleMenu}>
+              <MaintenancePage />
+            </AppLayout>
+          } 
+        />
+        <Route 
+          path="/notfound" 
+          element={
+            <AppLayout isMenuCollapsed={isMenuCollapsed} onToggleMenu={toggleMenu}>
+              <NotFoundPage />
+            </AppLayout>
+          } 
+        />
+          <Route 
+          path="/maintenance" 
+          element={
+            <AppLayout isMenuCollapsed={isMenuCollapsed} onToggleMenu={toggleMenu}>
+              <MaintenancePage />
+            </AppLayout>
+          } 
+        />
+        <Route 
+          path="/unauthorized" 
+          element={
+            <AppLayout isMenuCollapsed={isMenuCollapsed} onToggleMenu={toggleMenu}>
+              <UnauthorizedPage />
             </AppLayout>
           } 
         />

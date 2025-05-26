@@ -194,8 +194,24 @@ const FormField = ({
               onChange={handleChange}
               popperProps={{
                 positionFixed: true,
-                modifiers: [{ name: 'preventOverflow', options: { enabled: true } }]
+                modifiers: [
+                  { 
+                    name: 'preventOverflow',
+                    options: { 
+                      enabled: true,
+                      boundary: 'viewport',
+                      altAxis: true
+                    }
+                  },
+                  {
+                    name: 'flip',
+                    options: {
+                      fallbackPlacements: ['top', 'bottom']
+                    }
+                  }
+                ]
               }}
+              portalClassName="z-[9999]"
               {...datePickerProps}
               {...props}
             />
@@ -213,8 +229,24 @@ const FormField = ({
               onChange={handleRangePickerChange}
               popperProps={{
                 positionFixed: true,
-                modifiers: [{ name: 'preventOverflow', options: { enabled: true } }]
+                modifiers: [
+                  { 
+                    name: 'preventOverflow',
+                    options: { 
+                      enabled: true,
+                      boundary: 'viewport',
+                      altAxis: true
+                    }
+                  },
+                  {
+                    name: 'flip',
+                    options: {
+                      fallbackPlacements: ['top', 'bottom']
+                    }
+                  }
+                ]
               }}
+              portalClassName="z-[9999]"
               mode={DATEPICKER_MODES.RANGE}
               {...datePickerProps}
               {...props}
@@ -234,8 +266,24 @@ const FormField = ({
               onChange={handleRangePickerChange}
               popperProps={{
                 positionFixed: true,
-                modifiers: [{ name: 'preventOverflow', options: { enabled: true } }]
+                modifiers: [
+                  { 
+                    name: 'preventOverflow',
+                    options: { 
+                      enabled: true,
+                      boundary: 'viewport',
+                      altAxis: true
+                    }
+                  },
+                  {
+                    name: 'flip',
+                    options: {
+                      fallbackPlacements: ['top', 'bottom']
+                    }
+                  }
+                ]
               }}
+              portalClassName="z-[9999]"
               {...datePickerProps}
               {...props}
             />

@@ -31,7 +31,7 @@ const AttachmentList = ({ files = [], title = "첨부파일" }) => {
       <div data-type="Table" className="self-stretch min-w-28 px-3 py-2 bg-gray-50 border border-gray-300 flex justify-center items-center gap-9">
         <div className="flex-1 text-center justify-start text-slate-800 text-sm font-normal font-['Pretendard'] leading-tight">{title}</div>
       </div>
-      <div className="flex-1 p-3 border-r  border-b border-t border-gray-300 inline-flex flex-col justify-start items-start gap-2.5">
+      <div className="flex-1 p-3 border-r  border-b border-t max-h-[100px] overflow-y-auto border-gray-300 inline-flex flex-col justify-start items-start gap-2.5">
         {files.length > 0 ? (
           files.map((file, index) => (
             <div 

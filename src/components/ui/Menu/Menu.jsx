@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ChevronDownIcon, ChevronRightIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, ChevronRightIcon, Bars3Icon, ArrowsPointingOutIcon, ArrowsPointingInIcon, ChevronDoubleDownIcon, ChevronDoubleUpIcon } from '@heroicons/react/24/outline';
 
 /**
  * 메뉴 아이템 타입 정의
@@ -85,7 +85,7 @@ const MenuItem = ({ item, isActive, onClick, onSubMenuToggle, selectedItemId }) 
         
         {/* 텍스트와 화살표 컨테이너 */}
         <div className="flex-1 flex justify-between items-center">
-          <div className={`justify-start text-base font-medium  leading-normal ${isActive ? 'text-slate-200' : 'text-slate-900'}`}>
+          <div className={`justify-start text-base font-medium leading-normal ${isActive ? 'text-slate-200' : 'text-slate-900'}`}>
             {item.label}
           </div>
           
@@ -163,26 +163,47 @@ const Menu = ({
       if (collapsed) {
         setMenuBodyHeight(0);
       } else {
-        setMenuBodyHeight(menuBodyRef.current.scrollHeight);
+        // Calculate the height of the menu body based on its content
+        // Timeout to allow DOM to update before calculating scrollHeight
+        setTimeout(() => {
+          if (menuBodyRef.current) {
+             setMenuBodyHeight(menuBodyRef.current.scrollHeight);
+          }
+        }, 0);
       }
     }
-  }, [collapsed]);
+  }, [collapsed, activeMenus, items]); // Added activeMenus and items to dependency array
   
+  // 모든 하위 메뉴의 상태를 재귀적으로 설정하는 함수
+  const setAllSubMenusState = (items, isOpen) => {
+    const newActiveMenus = { ...activeMenus };
+    
+    const processItems = (menuItems) => {
+      menuItems.forEach((item) => {
+        if (item.children) {
+          newActiveMenus[item.id] = isOpen;
+          processItems(item.children);
+        }
+      });
+    };
+    
+    processItems(items);
+    setActiveMenus(newActiveMenus);
+  };
+
+  // 메뉴 아이콘 클릭 핸들러
+  const handleMenuIconClick = (e) => {
+    e.stopPropagation();
+    setCollapsed(!collapsed);
+    // 모든 하위 메뉴 상태 설정
+    setAllSubMenusState(items, !collapsed);
+  };
+
   const handleSubMenuToggle = (menuId) => {
-    setActiveMenus(prev => {
-      // 클릭한 메뉴가 이미 활성화되어 있는지 확인
-      const isCurrentlyActive = prev[menuId];
-      
-      // 새로운 상태 객체를 생성 (모든 메뉴 닫힘)
-      const newState = {};
-      
-      // 클릭한 메뉴가 활성화되어 있지 않았다면 해당 메뉴만 열기
-      if (!isCurrentlyActive) {
-        newState[menuId] = true;
-      }
-      
-      return newState;
-    });
+    setActiveMenus(prev => ({
+      ...prev,
+      [menuId]: !prev[menuId]
+    }));
   };
   
   const handleMenuItemClick = (item, parentId) => {
@@ -193,43 +214,33 @@ const Menu = ({
   };
   
   return (
-    <div className={`bg-white shadow-sm border-b border-gray-300 ${className}`}>
-      {/* 메뉴 헤더 */}
-      {title && (
+    <div className={`flex flex-col h-full ${className}`}>
+      <div className="flex items-center justify-between px-4 py-2">
+        <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
         <div 
-          className={`flex items-center justify-between p-4 bg-slate-800 text-white ${isCollapsible ? 'cursor-pointer' : ''}`}
-          onClick={() => isCollapsible && setCollapsed(!collapsed)}
+          className="p-2 rounded-md hover:bg-gray-100 cursor-pointer"
+          onClick={handleMenuIconClick}
         >
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 relative overflow-hidden flex items-center justify-center">
-              <Bars3Icon className="w-5 h-5 text-slate-200" />
-            </div>
-            <div className="justify-start text-slate-200 text-base font-medium font-['Pretendard'] leading-normal">{title}</div>
-          </div>
-          {isCollapsible && (
-            <ChevronDownIcon 
-              className={`w-4 h-4 text-slate-200 transition-transform duration-300 ${!collapsed ? 'transform rotate-180' : ''}`} 
-            />
+          {collapsed ? (
+            <ChevronDoubleDownIcon className="h-5 w-5 text-gray-600" />
+          ) : (
+            <ChevronDoubleUpIcon className="h-5 w-5 text-gray-600" />
           )}
         </div>
-      )}
-      
-      {/* 메뉴 바디 - 전체 메뉴의 열고 닫힘에도 애니메이션 적용 */}
-      <div 
-        ref={menuBodyRef}
-        className={`menu-body overflow-hidden transition-all duration-300 ease-in-out ${collapsed && isCollapsible ? 'opacity-0' : 'opacity-100'}`}
-        style={{ maxHeight: !isCollapsible ? 'none' : (collapsed ? '0' : 'auto') }}
-      >
-        {items.map((item, index) => (
-          <MenuItem 
-            key={item.id}
-            item={item}
-            isActive={activeMenus[item.id]}
-            onClick={handleMenuItemClick}
-            onSubMenuToggle={handleSubMenuToggle}
-            selectedItemId={selectedItemId}
-          />
-        ))}
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <ul className="space-y-1 p-2">
+          {items.map((item) => (
+            <MenuItem
+              key={item.id}
+              item={item}
+              isActive={activeMenus[item.id]}
+              onClick={handleMenuItemClick}
+              onSubMenuToggle={handleSubMenuToggle}
+              selectedItemId={selectedItemId}
+            />
+          ))}
+        </ul>
       </div>
     </div>
   );

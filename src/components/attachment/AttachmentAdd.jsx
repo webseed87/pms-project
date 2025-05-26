@@ -113,10 +113,10 @@ const AttachmentAdd = ({ onFilesChange }) => {
       </div>
 
       {/* 테이블 영역 */}
-      <div className="w-full border border-gray-300">
+      <div className="w-full border border-gray-300 max-h-[200px] overflow-y-auto">
         <table className="w-full text-sm text-gray-600">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-300">
+            <tr className="bg-gray-50 border-b border-gray-300 sticky top-0 z-10">
               <th className="w-12 py-2 px-3 text-center h-10">
                 <div className="flex items-center justify-center h-full">
                   <Checkbox 
@@ -158,7 +158,7 @@ const AttachmentAdd = ({ onFilesChange }) => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 text-center text-gray-500">
+                <td colSpan="7" className="py-4 text-center text-gray-500 ">
                   첨부된 파일이 없습니다.
                 </td>
               </tr>

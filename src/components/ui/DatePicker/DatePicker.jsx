@@ -89,6 +89,9 @@ const DatePicker = forwardRef(({
   // 날짜 선택 참조
   const datePickerWrapperRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [startDateInput, setStartDateInput] = useState('');
+  const [endDateInput, setEndDateInput] = useState('');
+  const [singleDateInput, setSingleDateInput] = useState('');
   
   // 시간 제거 헬퍼 함수 - 날짜만 사용하도록 시간을 00:00:00으로 설정
   const removeTimeFromDate = (date) => {
@@ -244,10 +247,18 @@ const DatePicker = forwardRef(({
     }
   };
 
+  // useEffect로 선택된 날짜가 변경될 때 input 값 업데이트
+  useEffect(() => {
+    if (mode === DATEPICKER_MODES.RANGE) {
+      setStartDateInput(formatDateToString(dateRange.startDate));
+      setEndDateInput(formatDateToString(dateRange.endDate));
+    } else {
+      setSingleDateInput(formatDateToString(selected));
+    }
+  }, [dateRange.startDate, dateRange.endDate, selected, mode]);
+
   // 사용자 정의 입력 컴포넌트
   const CustomInput = forwardRef(({ value, onClick }, inputRef) => {
-    const displayText = getDisplayText();
-    
     return (
       <div
         className={`
@@ -259,12 +270,45 @@ const DatePicker = forwardRef(({
           flex justify-between items-center 
           ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
         `}
-        onClick={disabled ? undefined : toggleCalendar}
       >
-        <div className={`${disabled ? 'text-gray-500' : displayText !== placeholder ? 'text-gray-700' : 'text-gray-500'} font-normal font-pretendard leading-tight`}>
-          {displayText}
-        </div>
-        <CalendarIcon className={`h-4 w-4 ${disabled ? 'text-gray-400' : 'text-gray-500'} transition-transform ml-2`} />
+        <input
+          ref={inputRef}
+          type="text"
+          value={mode === DATEPICKER_MODES.RANGE ? getDisplayText() : singleDateInput}
+          onChange={(e) => {
+            const input = e.target.value;
+            if (mode === DATEPICKER_MODES.SINGLE) {
+              setSingleDateInput(input);
+              
+              // YYYY-MM-DD 형식 검증
+              const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+              
+              if (dateRegex.test(input)) {
+                const [year, month, day] = input.split('-').map(Number);
+                const date = new Date(year, month - 1, day);
+                
+                if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
+                  handleDateChange(date);
+                }
+              }
+            }
+          }}
+          onBlur={() => {
+            if (mode === DATEPICKER_MODES.SINGLE) {
+              if (!singleDateInput) {
+                setSingleDateInput(formatDateToString(selected));
+              }
+            }
+          }}
+          onFocus={() => setIsOpen(true)}
+          placeholder={placeholder}
+          className={`w-full bg-transparent border-none outline-none  ${disabled ? 'text-gray-500' : value !== placeholder ? 'text-gray-700' : 'text-gray-500'} font-normal font-pretendard leading-tight`}
+          disabled={disabled}
+        />
+        <CalendarIcon 
+          className={`h-4 w-4 ${disabled ? 'text-gray-400' : 'text-gray-500'} transition-transform ml-2 cursor-pointer`}
+          onClick={disabled ? undefined : toggleCalendar}
+        />
       </div>
     );
   });
@@ -304,33 +348,73 @@ const DatePicker = forwardRef(({
     </div>
   );
 
+  // 날짜 문자열 포맷팅 함수
+  const formatDateToString = (date) => {
+    if (!date) return '';
+    return date.toLocaleDateString('ko-KR', { 
+      year: 'numeric', 
+      month: '2-digit', 
+      day: '2-digit' 
+    }).replace(/\. /g, '-').replace(/\.$/, '');
+  };
+
   // 단일 날짜 선택 모드 렌더링
   const renderSingleMode = () => (
-    <ReactDatePicker
-      ref={ref}
-      id={id}
-      name={name}
-      selected={selected}
-      onChange={handleDateChange}
-      dateFormat={dateFormat}
-      disabled={disabled}
-      locale={ko}
-      popperClassName="datepicker-popper"
-      calendarClassName="datepicker-calendar"
-      dayClassName={(date) => 
-        date.getDay() === 0 
-          ? "datepicker-sunday" 
-          : date.getDay() === 6 
-            ? "datepicker-saturday" 
-            : undefined
-      }
-      customInput={<CustomInput />}
-      renderCustomHeader={renderCustomHeader}
-      open={isOpen}
-      onClickOutside={() => setIsOpen(false)}
-      showPopperArrow={false}
-      {...props}
-    />
+    <div ref={datePickerWrapperRef} className="relative w-full">
+      <CustomInput value={singleDateInput} />
+      
+      {isOpen && (
+        <div className="absolute w-[255px] h-[310px] border flex flex-col border-gray-300 right-0 mt-2 z-[90000999] p-4 bg-white rounded-lg">
+          <ReactDatePicker
+            inline
+            selected={selected}
+            onChange={handleDateChange}
+            dateFormat={dateFormat}
+            disabled={disabled}
+            locale={ko}
+            calendarClassName="datepicker-calendar"
+            dayClassName={(date) => 
+              date.getDay() === 0 
+                ? "datepicker-sunday" 
+                : date.getDay() === 6 
+                  ? "datepicker-saturday" 
+                  : undefined
+            }
+            renderCustomHeader={renderCustomHeader}
+            {...props}
+          />
+          <div className="mt-2">
+            <input
+              type="text"
+              value={singleDateInput}
+              onChange={(e) => {
+                const input = e.target.value;
+                setSingleDateInput(input);
+                
+                // YYYY-MM-DD 형식 검증
+                const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+                
+                if (dateRegex.test(input)) {
+                  const [year, month, day] = input.split('-').map(Number);
+                  const date = new Date(year, month - 1, day);
+                  
+                  if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
+                    handleDateChange(date);
+                  }
+                }
+              }}
+              onBlur={() => {
+                if (!singleDateInput) {
+                  setSingleDateInput(formatDateToString(selected));
+                }
+              }}
+              placeholder="YYYY-MM-DD"
+              className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-800"
+            />
+          </div>
+        </div>
+      )}
+    </div>
   );
 
   // 범위 선택 모드 렌더링 - 두 개의 독립적인 달력으로 구현
@@ -340,11 +424,39 @@ const DatePicker = forwardRef(({
       
       {isOpen && (
         <div className="absolute top-full border border-gray-200 left-0 mt-2 z-[9999] p-4 bg-white rounded-lg dual-calendar-container">
-          <div className="flex flex-wrap md:flex-nowrap gap-4 lg:flex-nowrap">
+          <div className="flex flex-wrap md:flex-nowrap lg:flex-nowrap">
             {/* 왼쪽 달력 - 시작일 선택 */}
-            <div className="dual-calendar-left ">
-              <div className="text-center text-sm font-medium p-2 ">
+            <div className="dual-calendar-left">
+              <div className="text-center text-sm font-medium p-2">
                 시작일 선택
+              </div>
+              <div className="px-2 mb-2">
+                <input
+                  type="text"
+                  value={startDateInput}
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    setStartDateInput(input);
+                    
+                    // YYYY-MM-DD 형식 검증
+                    const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+                    
+                    if (dateRegex.test(input)) {
+                      const [year, month, day] = input.split('-').map(Number);
+                      const date = new Date(year, month - 1, day);
+                      
+                      if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
+                        handleStartDateChange(date);
+                      }
+                    }
+                  }}
+                  onBlur={() => {
+                    // 포커스를 잃었을 때 유효하지 않은 입력값이면 원래 값으로 복원
+                    setStartDateInput(formatDateToString(dateRange.startDate));
+                  }}
+                  placeholder="YYYY-MM-DD"
+                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-800"
+                />
               </div>
               <ReactDatePicker
                 inline
@@ -354,13 +466,11 @@ const DatePicker = forwardRef(({
                 endDate={dateRange.endDate}
                 selectsStart
                 locale={ko}
-                calendarClassName="datepicker-range-calendar-left "
+                calendarClassName="datepicker-range-calendar-left"
                 dayClassName={(date) => {
-                  // 해당 날짜가 선택된 범위 내에 있는지 확인
                   const isInRange = dateRange.startDate && dateRange.endDate && 
                     date >= dateRange.startDate && date <= dateRange.endDate;
                   
-                  // 시작일, 종료일 또는 선택 범위 내에 있는 날짜인지에 따라 클래스 반환
                   if (dateRange.startDate && date.getTime() === dateRange.startDate.getTime()) {
                     return "datepicker-day-start";
                   } else if (isInRange) {
@@ -378,8 +488,36 @@ const DatePicker = forwardRef(({
             
             {/* 오른쪽 달력 - 종료일 선택 */}
             <div className="dual-calendar-right">
-              <div className="text-center text-sm font-medium p-2 ">
+              <div className="text-center text-sm font-medium p-2">
                 종료일 선택
+              </div>
+              <div className="px-2 mb-2">
+                <input
+                  type="text"
+                  value={endDateInput}
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    setEndDateInput(input);
+                    
+                    // YYYY-MM-DD 형식 검증
+                    const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+                    
+                    if (dateRegex.test(input)) {
+                      const [year, month, day] = input.split('-').map(Number);
+                      const date = new Date(year, month - 1, day);
+                      
+                      if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
+                        handleEndDateChange(date);
+                      }
+                    }
+                  }}
+                  onBlur={() => {
+                    // 포커스를 잃었을 때 유효하지 않은 입력값이면 원래 값으로 복원
+                    setEndDateInput(formatDateToString(dateRange.endDate));
+                  }}
+                  placeholder="YYYY-MM-DD"
+                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-800"
+                />
               </div>
               <ReactDatePicker
                 inline
@@ -391,11 +529,9 @@ const DatePicker = forwardRef(({
                 locale={ko}
                 calendarClassName="datepicker-range-calendar-right"
                 dayClassName={(date) => {
-                  // 해당 날짜가 선택된 범위 내에 있는지 확인
                   const isInRange = dateRange.startDate && dateRange.endDate && 
                     date >= dateRange.startDate && date <= dateRange.endDate;
                   
-                  // 시작일, 종료일 또는 선택 범위 내에 있는 날짜인지에 따라 클래스 반환
                   if (dateRange.endDate && date.getTime() === dateRange.endDate.getTime()) {
                     return "datepicker-day-end";
                   } else if (isInRange) {
