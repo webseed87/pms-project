@@ -146,49 +146,58 @@ my-project/
 - 아이콘 지원
 - 키보드 네비게이션
 - 호버/클릭 액션
-- 전체 메뉴 토글 기능 (모든 하위 메뉴 펼치기/접기)
-- 개별 메뉴 토글 기능
-- 메뉴 타이틀 고정 표시
-- 부드러운 애니메이션 효과
+- 전체 메뉴 토글 기능
+  - 상단 메뉴 아이콘으로 모든 하위 메뉴 펼치기/접기
+  - 개별 메뉴 클릭으로 해당 메뉴만 토글
+- 메뉴 상태 관리
+  - 활성화된 메뉴 시각적 표시
+  - 하위 메뉴 애니메이션 효과
+- 반응형 디자인
+  - 모바일/데스크톱 레이아웃 지원
+  - 스크롤 가능한 메뉴 영역
 
-#### 주요 기능
-1. 메뉴 토글
-   - 상단 토글 버튼으로 모든 하위 메뉴를 한 번에 펼치거나 접기
-   - 개별 메뉴 클릭으로 해당 메뉴의 하위 메뉴만 토글
-   - 메뉴 타이틀은 항상 표시되며 토글 상태와 무관
-
-2. 하위 메뉴 관리
-   - 재귀적 구조로 무제한 깊이의 하위 메뉴 지원
-   - 하위 메뉴 상태 자동 관리
-   - 부드러운 펼침/접힘 애니메이션
-
-3. 스타일링
-   - 활성화된 메뉴 강조 표시
-   - 아이콘과 텍스트 정렬
-   - 호버 효과
-   - 반응형 디자인
-
-#### 사용 예시
+사용 예시:
 ```jsx
 const menuItems = [
   {
-    id: 'menu1',
+    id: 'project',
     label: '프로젝트 관리',
-    icon: <DocumentIcon className="w-6 h-6" />,
+    icon: <Squares2X2Icon className="w-6 h-6" />,
     children: [
-      { id: 'submenu1', label: '프로젝트 정보' },
-      { id: 'submenu2', label: '프로젝트 업무 정보' }
+      { id: 'project-info', label: '프로젝트 정보' },
+      { id: 'project-task', label: '프로젝트 업무 정보' }
     ]
   }
 ];
 
 <Menu 
-  title="메뉴"
   items={menuItems}
-  onMenuItemClick={(item) => console.log('선택된 메뉴:', item)}
+  title="메뉴"
+  onMenuItemClick={handleMenuClick}
   isCollapsible={true}
   defaultCollapsed={false}
 />
+```
+
+Props:
+| 속성 | 타입 | 설명 |
+|------|------|------|
+| title | string | 메뉴 상단에 표시될 제목 |
+| items | MenuItem[] | 메뉴 아이템 배열 |
+| onMenuItemClick | function | 메뉴 아이템 클릭 시 호출될 함수 |
+| isCollapsible | boolean | 메뉴 접기/펼치기 가능 여부 |
+| defaultCollapsed | boolean | 초기 메뉴 접힘 상태 |
+| className | string | 추가 CSS 클래스 |
+
+MenuItem 타입:
+```typescript
+type MenuItem = {
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+  children?: MenuItem[];
+  onClick?: () => void;
+}
 ```
 
 ### Select 컴포넌트
