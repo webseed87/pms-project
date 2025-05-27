@@ -10,10 +10,10 @@
 
 #### 주요 기능
 - **파일 업로드**: 로컬 파일 시스템에서 파일 선택 및 업로드
-- **드래그 앤 드롭**: 파일을 끌어다 놓는 방식의 업로드 지원
 - **파일 목록 관리**: 업로드된 파일 목록 표시
-- **파일 삭제**: 업로드된 파일 개별 삭제
+- **파일 삭제**: 업로드된 파일 개별 또는 다중 삭제
 - **파일 정보 표시**: 파일명, 종류, 크기, 첨부일자, 첨부자 등 정보 표시
+- **전체 선택**: 모든 파일 선택/해제 기능
 
 #### 사용 방법
 ```jsx
@@ -21,15 +21,7 @@ import AttachmentAdd from '../components/attachment/AttachmentAdd';
 
 // 기본 사용법
 <AttachmentAdd 
-  onFileUpload={handleFileUpload}
-  onFileDelete={handleFileDelete}
-  attachments={attachmentList}
-/>
-
-// 읽기 전용 모드
-<AttachmentAdd 
-  readOnly={true}
-  attachments={attachmentList}
+  onFilesChange={handleFilesChange}
 />
 ```
 
