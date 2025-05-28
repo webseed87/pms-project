@@ -70,7 +70,7 @@ const ButtonExample = () => {
           {/* 부가 타입 */}
           <div>
             <h3 className="font-semibold mb-3 text-gray-700">부가 타입</h3>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <div className="p-4 bg-gray-50 rounded-lg">
                 <h4 className="text-xs font-semibold mb-2 text-gray-500">SAVE</h4>
                 <Button 
@@ -105,6 +105,14 @@ const ButtonExample = () => {
                 <h4 className="text-xs font-semibold mb-2 text-gray-500">REFRESH</h4>
                 <Button 
                   buttonType={BUTTON_TYPES.REFRESH}
+                  icon={<ArrowPathIcon />}
+                >
+                </Button>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <h4 className="text-xs font-semibold mb-2 text-gray-500">RESET</h4>
+                <Button 
+                  buttonType={BUTTON_TYPES.RESET}
                   icon={<ArrowPathIcon />}
                 >
                 </Button>

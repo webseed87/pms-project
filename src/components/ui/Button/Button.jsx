@@ -17,6 +17,7 @@ export const BUTTON_TYPES = {
   DELETE: 'delete',        // 삭제 버튼
   SAVE: 'save',            // 저장 버튼
   REFRESH: 'refresh',      // 리프레쉬 버튼
+  RESET: 'reset',          // 리셋 버튼
 }
 
 /**
@@ -106,7 +107,11 @@ const Button = ({
     [BUTTON_TYPES.DELETE]: 'bg-white text-rose-600 outline outline-1 outline-offset-[-1px] outline-rose-600 hover:bg-rose-50 hover:text-rose-800 hover:outline-rose-800 focus:bg-rose-50 focus:text-rose-800 focus:outline-rose-800 focus:ring-1 focus:ring-rose-200',
 
     // REFRESH - 리프레쉬 버튼 
-    [BUTTON_TYPES.REFRESH]: 'bg-slate-400 text-gray-50 rounded outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-center items-center gap-2.5 focus:bg-slate-500 focus:outline-gray-400 focus:ring-1 focus:ring-gray-300',
+    [BUTTON_TYPES.REFRESH]: 'bg-slate-400 text-gray-50 rounded outline outline-1 outline-offset-[-1px] outline-gray-300 inline-flex justify-center items-center gap-2.5 hover:bg-slate-500 hover:outline-gray-400 focus:bg-slate-500 focus:outline-gray-400 focus:ring-1 focus:ring-gray-300',
+    
+    // RESET - 리셋버튼
+    [BUTTON_TYPES.RESET]: 'bg-white text-gray-700 rounded outline outline-1 outline-offset-[-1px] outline-gray-700 inline-flex justify-center items-center gap-2.5 hover:bg-gray-100 hover:text-gray-900 hover:outline-gray-900 focus:bg-gray-50 focus:text-gray-900 focus:outline-gray-900 focus:ring-1 focus:ring-gray-300',
+
   };
   
   // Size 스타일 (버튼 크기별 스타일)
